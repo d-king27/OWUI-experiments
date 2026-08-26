@@ -1,0 +1,20 @@
+id: explain_hello_world_baseline
+name: Understand the Hello World Baseline
+description: Explains how the local Open WebUI chat proves its provider connection works.
+
+steps:
+  - id: understand_the_goal
+    title: Understand what the baseline demonstrates
+    description: Learn what the fixed Hello World response proves and what it does not prove.
+
+  - id: trace_the_request
+    title: Trace the request path
+    description: Follow a message from the Open WebUI chat to the mock provider and back.
+
+  - id: run_the_chat_test
+    title: Run the chat test
+    description: Send any message to the hello-world model in the local Open WebUI interface.
+
+  - id: verify_the_result
+    title: Verify the expected response
+    description: Confirm that the fixed response appears and understand the next development boundary.

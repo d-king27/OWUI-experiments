@@ -1,0 +1,133 @@
+schema_version: 1
+id: open_webui_poc_ui_map
+status: draft
+target_open_webui_version: v0.11.0
+verification:
+  state: not_run
+  note: >-
+    Locator candidates are examples inferred from common accessible UI patterns.
+    They must be verified against the Compose-pinned Open WebUI build before any
+    click, type, selection, or submission action is enabled.
+
+allowed_origins:
+  - http://localhost:3000
+  - http://127.0.0.1:3000
+
+resolution_policy:
+  require_visible: true
+  require_enabled_for_interaction: true
+  maximum_matches: 1
+  fail_on_ambiguity: true
+  prefer_accessibility_locators: true
+  allow_css_fallbacks: true
+
+targets:
+  navigation-actions:
+    description: Stable navigation area where the Guide Bridge may mount its CTA.
+    capabilities: [mount]
+    risk: read_only
+    verification: required
+    locators:
+      - kind: role
+        role: navigation
+        name_pattern: "(?i)(chat|main|sidebar)"
+        confidence: low
+      - kind: css_fallback
+        selector: "nav"
+        confidence: low
+
+  getting-started-cta:
+    description: Getting started button injected by the Guide Bridge.
+    capabilities: [highlight, click]
+    risk: local_extension_control
+    verification: generated_by_bridge
+    locators:
+      - kind: css
+        selector: "[data-howto-guide-cta='true']"
+        confidence: high
+
+  new-chat:
+    description: Starts a new conversation without modifying the current chat.
+    capabilities: [highlight, click]
+    risk: changes_navigation
+    verification: required
+    locators:
+      - kind: role
+        role: button
+        name_pattern: "(?i)^new chat$"
+        confidence: medium
+      - kind: role
+        role: link
+        name_pattern: "(?i)^new chat$"
+        confidence: medium
+
+  model-picker:
+    description: Opens the list of chat choices and displays the selected choice.
+    capabilities: [highlight, click, choose_option, inspect_options]
+    risk: changes_model_selection
+    verification: required
+    locators:
+      - kind: role
+        role: button
+        name_pattern: "(?i)(select a model|models?|chat choice)"
+        confidence: medium
+      - kind: css_fallback
+        selector: "button[aria-haspopup='listbox']"
+        confidence: low
+
+  message-composer:
+    description: Main input where the user writes a chat request.
+    capabilities: [highlight, type]
+    risk: changes_draft
+    verification: required
+    locators:
+      - kind: role
+        role: textbox
+        name_pattern: "(?i)(message|prompt|chat)"
+        confidence: medium
+      - kind: css_fallback
+        selector: "textarea[placeholder*='message' i]"
+        confidence: low
+      - kind: css_fallback
+        selector: "textarea"
+        confidence: low
+
+  send-button:
+    description: Submits the current message composer contents.
+    capabilities: [highlight, click]
+    risk: submits_message
+    verification: required
+    locators:
+      - kind: role
+        role: button
+        name_pattern: "(?i)(send|submit)"
+        confidence: medium
+      - kind: css_fallback
+        selector: "button[type='submit']"
+        confidence: low
+
+  assistant-message:
+    description: Most recent rendered assistant response in the active conversation.
+    capabilities: [highlight, read_fixed_assertion, wait_for_text]
+    risk: read_only
+    verification: required
+    resolution:
+      allow_multiple: true
+      selection: last_visible_match
+    locators:
+      - kind: css_fallback
+        selector: "[data-message-role='assistant']"
+        confidence: low
+      - kind: css_fallback
+        selector: "[data-role='assistant']"
+        confidence: low
+
+forbidden_target_categories:
+  - authentication
+  - passwords
+  - accounts
+  - administration
+  - deletion
+  - uploads
+  - provider_settings
+  - credentials

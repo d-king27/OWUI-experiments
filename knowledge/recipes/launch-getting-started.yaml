@@ -1,0 +1,97 @@
+schema_version: 1
+id: launch-getting-started
+title: Open the Getting Started guide
+status: draft
+description: >-
+  Starts a new chat, selects Open WebUI Guide, and submits the visible starter
+  message used by the getting_started intent.
+
+trigger:
+  intent: getting_started
+  source: cta
+  version: 1
+
+requires_confirmation: true
+confirmation:
+  title: Start a new guide chat?
+  body: >-
+    Your current chat will not be changed. The guide will open in a new chat,
+    select Open WebUI Guide, type the Getting Started prompt, and submit it.
+  confirm_label: Start guide
+  cancel_label: Cancel
+
+allowed_origins:
+  - http://localhost:3000
+  - http://127.0.0.1:3000
+
+limits:
+  total_timeout_ms: 30000
+  default_step_timeout_ms: 5000
+  cancel_key: Escape
+
+preconditions:
+  - check: target_available
+    target: new-chat
+  - check: target_available
+    target: model-picker
+  - check: option_available
+    target: model-picker
+    value: Open WebUI Guide
+  - check: target_available
+    target: message-composer
+  - check: target_available
+    target: send-button
+
+steps:
+  - id: open_new_chat
+    action: click
+    target: new-chat
+    timeout_ms: 5000
+
+  - id: wait_for_model_picker
+    action: wait_for_target
+    target: model-picker
+    timeout_ms: 5000
+
+  - id: open_model_picker
+    action: click
+    target: model-picker
+    timeout_ms: 5000
+
+  - id: select_guide
+    action: choose_option
+    target: model-picker
+    value: Open WebUI Guide
+    match: exact
+    timeout_ms: 5000
+
+  - id: enter_starter_prompt
+    action: type_fixed_text
+    target: message-composer
+    value: Start the getting started tour
+    clear_existing: true
+    timeout_ms: 5000
+
+  - id: submit_starter_prompt
+    action: click
+    target: send-button
+    timeout_ms: 5000
+
+  - id: wait_for_guide_response
+    action: wait_for_target
+    target: assistant-message
+    timeout_ms: 15000
+
+on_failure:
+  action: stop
+  clear_highlights: true
+  preserve_current_page: true
+  message: >-
+    The Getting Started guide could not be opened safely. No further actions
+    were attempted.
+
+on_cancel:
+  action: stop
+  clear_highlights: true
+  message: Getting Started was stopped.
+

@@ -16,7 +16,7 @@ An OpenAI-compatible provider supplies language-model inference. The provider ma
 
 ### Agent and domain logic
 
-The future `HowToAgent` owns process lookup and orchestration. It lives in a standalone Python package and has no dependency on Open WebUI internals.
+`HowToAgent` owns process loading and ordered step lookup. It lives in a standalone Python package and has no dependency on Open WebUI internals. Conversation state and orchestration remain deferred until an experiment establishes their requirements.
 
 ### Knowledge and process content
 

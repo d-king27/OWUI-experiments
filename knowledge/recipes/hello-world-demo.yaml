@@ -1,0 +1,113 @@
+schema_version: 1
+id: hello-world-demo
+title: Try the Hello World connectivity example
+status: draft
+description: >-
+  Selects the deterministic hello-world provider, submits a fixed test message,
+  verifies the expected response, highlights it, and restores Open WebUI Guide.
+
+requires_confirmation: true
+confirmation:
+  title: Run the Hello World example?
+  body: >-
+    The guide will select hello-world, type "Test the connection", submit it,
+    wait for the fixed response, highlight the result, and then re-select Open
+    WebUI Guide. Press Escape at any time to stop.
+  confirm_label: Run example
+  cancel_label: Cancel
+
+allowed_origins:
+  - http://localhost:3000
+  - http://127.0.0.1:3000
+
+limits:
+  total_timeout_ms: 45000
+  default_step_timeout_ms: 5000
+  cancel_key: Escape
+
+preconditions:
+  - check: selected_option
+    target: model-picker
+    value: Open WebUI Guide
+  - check: option_available
+    target: model-picker
+    value: hello-world
+  - check: target_available
+    target: message-composer
+  - check: target_available
+    target: send-button
+
+steps:
+  - id: open_model_picker
+    action: click
+    target: model-picker
+    timeout_ms: 5000
+
+  - id: select_hello_world
+    action: choose_option
+    target: model-picker
+    value: hello-world
+    match: exact
+    timeout_ms: 5000
+
+  - id: enter_test_message
+    action: type_fixed_text
+    target: message-composer
+    value: Test the connection
+    clear_existing: true
+    timeout_ms: 5000
+
+  - id: submit_test_message
+    action: click
+    target: send-button
+    timeout_ms: 5000
+
+  - id: verify_fixed_response
+    action: wait_for_text
+    target: assistant-message
+    value: "Hello, world! The baseline chat connection is working."
+    match: exact
+    timeout_ms: 15000
+
+  - id: highlight_result
+    action: highlight
+    target: assistant-message
+    duration_ms: 5000
+
+  - id: reopen_model_picker
+    action: click
+    target: model-picker
+    timeout_ms: 5000
+
+  - id: restore_guide
+    action: choose_option
+    target: model-picker
+    value: Open WebUI Guide
+    match: exact
+    timeout_ms: 5000
+
+on_success:
+  message: >-
+    The fixed response confirms that Open WebUI exchanged a chat request with
+    the hello-provider. It does not demonstrate language-model reasoning.
+
+on_failure:
+  action: stop
+  clear_highlights: true
+  restore_option:
+    target: model-picker
+    value: Open WebUI Guide
+    only_if_available: true
+  message: >-
+    The expected fixed response did not appear. The example stopped without
+    resubmitting the message.
+
+on_cancel:
+  action: stop
+  clear_highlights: true
+  restore_option:
+    target: model-picker
+    value: Open WebUI Guide
+    only_if_available: true
+  message: The Hello World example was stopped.
+
