@@ -5,7 +5,7 @@
   "target_open_webui_version": "v0.11.0",
   "verification": {
     "state": "not_run",
-    "note": "Locator candidates are examples inferred from common accessible UI patterns. They must be verified against the Compose-pinned Open WebUI build before any click, type, selection, or submission action is enabled."
+    "note": "The navigation-actions mount target was inspected read-only against the Compose-pinned Open WebUI v0.11.0 build. Interactive targets must still be verified before any click, type, selection, or submission action is enabled."
   },
   "allowed_origins": [
     "http://localhost:3000",
@@ -26,18 +26,18 @@
         "mount"
       ],
       "risk": "read_only",
-      "verification": "required",
+      "verification": "verified_for_mount_v0.11.0",
       "locators": [
+        {
+          "kind": "css",
+          "selector": "nav",
+          "confidence": "high"
+        },
         {
           "kind": "role",
           "role": "navigation",
-          "name_pattern": "(?i)(chat|main|sidebar)",
-          "confidence": "low"
-        },
-        {
-          "kind": "css_fallback",
-          "selector": "nav",
-          "confidence": "low"
+          "name_pattern": "(?i)new chat",
+          "confidence": "medium"
         }
       ]
     },

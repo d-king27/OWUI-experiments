@@ -45,7 +45,7 @@ knowledge/ui-map.yaml
 knowledge/recipes/*.yaml
 ```
 
-Mounting these paths and installing the Function are part of the reproducible installation ticket; the committed Compose baseline does not install the Pipe yet.
+The committed Compose service mounts these paths read-only. After Open WebUI is healthy, create an administrator API key, set `OPEN_WEBUI_API_KEY`, and run `scripts/install-howto-function.ps1` to create and enable the Function. The installer refuses changed stored source unless `-Update` is supplied.
 
 ## User-visible catalog
 
@@ -63,7 +63,7 @@ The Pipe appends one block per directive:
 ```
 ````
 
-The future Guide Bridge must validate the version, kind, target or recipe, and confirmation boundary independently before exposing a UI control.
+The Guide Bridge validates its CTA recipe handoff independently. Later directive-rendering work must likewise validate the version, kind, target or recipe, and confirmation boundary before exposing a message-level UI control.
 
 ## Security
 

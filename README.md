@@ -42,7 +42,7 @@ How-To Agent adapter
 | Path | Purpose |
 | --- | --- |
 | `agent/` | Framework-independent agent and process-domain logic |
-| `openwebui/` | Open WebUI infrastructure, baseline provider, and future adapters |
+| `openwebui/` | Open WebUI infrastructure, Function adapter, and Guide Bridge extension |
 | `knowledge/` | Supporting process documentation, kept separate from process structure |
 | `scripts/` | Local development helper commands |
 | `tests/` | Automated tests for the agent package |
@@ -73,6 +73,35 @@ Open <http://localhost:3000>, select the `hello-world` model if it is not alread
 ```text
 Hello, world! The baseline chat connection is working.
 ```
+
+## Install the Open WebUI Guide
+
+The Compose service mounts the guide package, knowledge, and adapters read-only, and enables Open WebUI API-key authentication. After Open WebUI is healthy, create an administrator API key in Open WebUI, keep it outside source control, and install the source-controlled Pipe with PowerShell 7:
+
+```powershell
+$env:OPEN_WEBUI_API_KEY = "<admin-api-key>"
+./scripts/install-howto-function.ps1
+```
+
+The installer is idempotent. A second run makes no changes when the stored Function has the same name and source. If the source has changed, replacement must be explicit:
+
+```powershell
+./scripts/install-howto-function.ps1 -Update
+```
+
+You can alternatively pass the administrator API key explicitly:
+
+```powershell
+./scripts/install-howto-function.ps1 -ApiKey $env:OPEN_WEBUI_API_KEY
+```
+
+Select **Open WebUI Guide** in the model selector and ask `What is Open WebUI?`. The Pipe is deterministic and does not require an LLM provider.
+
+## Install the Getting started CTA
+
+Load [openwebui/guide-extension](openwebui/guide-extension) as an unpacked Chrome or Edge extension, then reload the local Open WebUI page. The extension injects one persistent **Getting started** CTA and asks for confirmation without changing the current chat when cancelled.
+
+Ticket 6 intentionally stops at the safe browser handoff. Until the consent-gated recipe runner is added, confirming **Start guide** reports that automation is unavailable and performs no partial UI actions. See the [Guide Bridge instructions](openwebui/guide-extension/README.md) for installation, security boundaries, tests, and removal.
 
 Authentication is disabled for this local baseline, and port 3000 is bound to the loopback interface rather than the local network. Changing authentication mode later requires a fresh Open WebUI data volume.
 

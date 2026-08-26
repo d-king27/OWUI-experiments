@@ -13,7 +13,9 @@
 9. Persist incomplete process state when evidence shows it is needed.
 10. Evaluate whether a more sophisticated agent framework is justified.
 
-The minimal Pipe in step 6 now exists in source. It still needs reproducible container mounts, administrator installation, and live verification before the experiment can treat it as connected to Open WebUI.
+The minimal Pipe in step 6 now exists in source with reproducible read-only container mounts and an idempotent administrator installer. Its imports and mounted content have been verified in the pinned running container. An administrator still needs to create an API key and run the installer before the local UI exposes the guide as a selectable Function.
+
+The Guide Bridge extension foundation also exists: it injects a deduplicated local CTA, provides accessible confirmation and cancellation, and fails closed at a versioned recipe handoff. The next browser increment is the independently validating, consent-gated recipe runner; message directive rendering and highlighting follow it.
 
 ## Questions to answer through experimentation
 

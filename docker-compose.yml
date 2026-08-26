@@ -24,6 +24,9 @@ services:
       - "127.0.0.1:${OPEN_WEBUI_PORT:-3000}:8080"
     volumes:
       - open-webui-data:/app/backend/data
+      - ./agent:/opt/howto/agent:ro
+      - ./knowledge:/opt/howto/knowledge:ro
+      - ./openwebui:/opt/howto/openwebui:ro
     environment:
       WEBUI_SECRET_KEY: "${WEBUI_SECRET_KEY:?Copy .env.example to .env and set WEBUI_SECRET_KEY}"
       WEBUI_AUTH: "${WEBUI_AUTH:-false}"
@@ -32,7 +35,11 @@ services:
       OPENAI_API_KEY: "local-development"
       DEFAULT_MODELS: "hello-world"
       ENABLE_OLLAMA_API: "false"
+      ENABLE_PLUGINS: "true"
+      ENABLE_API_KEYS: "true"
       ENABLE_PIP_INSTALL_FRONTMATTER_REQUIREMENTS: "false"
+      HOWTO_CONTENT_ROOT: "/opt/howto"
+      PYTHONPATH: "/opt/howto/agent/src:/opt/howto"
     depends_on:
       hello-provider:
         condition: service_healthy

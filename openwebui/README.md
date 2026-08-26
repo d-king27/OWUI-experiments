@@ -22,7 +22,11 @@ The implementation is in [`mock_provider/server.py`](mock_provider/server.py) an
 
 The source-controlled `functions/howto_pipe.py` adapter exposes the deterministic domain agent as **Open WebUI Guide**. Its user-catalog integration is isolated in `functions/catalog.py` and pinned to the Open WebUI version used by this repository.
 
-The adapter exists in source but is not installed by the current Compose baseline. Reproducible mounts and Function installation are the next integration boundary.
+The Compose service mounts `agent/`, `knowledge/`, and `openwebui/` read-only beneath `/opt/howto` and adds the agent source and repository adapter root to `PYTHONPATH`. It does not mutate Open WebUI's image or install frontmatter dependencies.
+
+After the service is healthy, an administrator creates an API key and `scripts/install-howto-function.ps1` creates and enables the Function through the authenticated administrator API. The Compose baseline enables API-key support; disabling interactive UI authentication does not make these administrator routes anonymous. Installation remains an explicit operation because Functions execute trusted server-side Python and are persisted in the Open WebUI data volume.
+
+The browser-only **Getting started** entry point lives in `guide-extension/`. Load that directory as an unpacked Chrome or Edge extension for the two configured local origins. The extension is intentionally separate from the container because server Functions cannot manipulate a user's DOM. Its Ticket 6 implementation confirms and emits an allow-listed recipe request but performs no page automation until the recipe runner is installed.
 
 ## Connecting a model provider
 

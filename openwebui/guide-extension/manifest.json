@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "Open WebUI Guide Bridge",
+  "description": "Adds a local Getting started entry point for the Open WebUI Guide proof of concept.",
+  "version": "0.1.0",
+  "content_scripts": [
+    {
+      "matches": [
+        "http://localhost:3000/*",
+        "http://127.0.0.1:3000/*"
+      ],
+      "js": [
+        "bridge.js",
+        "content.js"
+      ],
+      "css": [
+        "guide.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "ui-map.json"
+      ],
+      "matches": [
+        "http://localhost:3000/*",
+        "http://127.0.0.1:3000/*"
+      ]
+    }
+  ]
+}
