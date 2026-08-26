@@ -16,7 +16,7 @@ An OpenAI-compatible provider supplies language-model inference. The provider ma
 
 ### Agent and domain logic
 
-`HowToAgent` owns process loading and ordered step lookup. It lives in a standalone Python package and has no dependency on Open WebUI internals. Conversation state and orchestration remain deferred until an experiment establishes their requirements.
+`HowToAgent` owns process loading, ordered step lookup, deterministic onboarding intent routing, grounded manual responses, and validated UI-directive construction. It lives in a standalone Python package and has no dependency on Open WebUI internals. Open WebUI-specific user catalog lookup, conversation-state persistence, and browser execution remain outside the domain package.
 
 ### Knowledge and process content
 
@@ -28,7 +28,7 @@ Source-controlled YAML describes process structure. Source-controlled Markdown p
 Open WebUI -> thin adapter -> HowToAgent -> process and knowledge
 ```
 
-A future Pipe Function is the most likely initial adapter. Its responsibility should be limited to translating Open WebUI messages and configuration into calls to the domain package, then returning an appropriate response.
+The source-controlled Pipe Function is the initial adapter. Its responsibility is limited to translating Open WebUI messages and the current user's visible chat choices into domain contracts, calling `HowToAgent.respond`, and serializing the resulting Markdown and validated directives. Open WebUI v0.11.0 internal catalog imports are isolated in `openwebui/functions/catalog.py` so version changes do not leak into domain logic.
 
 ## Deferred decisions
 

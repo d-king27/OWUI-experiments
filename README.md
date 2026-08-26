@@ -6,7 +6,7 @@ The project is intentionally small and modular. Open WebUI provides the interact
 
 ## Current status
 
-The repository foundation and a working local Open WebUI baseline are in place. A deterministic development provider exposes a `hello-world` model so the chat UI can be tested without credentials or a real LLM. The framework-independent agent package can load and navigate an example process that explains this baseline. It is not connected to Open WebUI yet.
+The repository foundation and a working local Open WebUI baseline are in place. A deterministic development provider exposes a `hello-world` model so the chat UI can be tested without credentials or a real LLM. The framework-independent agent package can load the guide content, navigate the example process, answer the required onboarding questions, and return validated UI directives. A source-controlled Pipe adapter now exposes that behaviour as **Open WebUI Guide**, but it is not installed into the Compose baseline yet.
 
 The proposed proof-of-concept design, including a selectable guide, persistent **Getting started** CTA, UI highlighting, and consent-gated demonstration, is documented in [docs/howto-agent-proposal.md](docs/howto-agent-proposal.md).
 

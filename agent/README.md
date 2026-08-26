@@ -70,4 +70,20 @@ reply = AgentReply(
 
 Content loading fails closed when a manual reference, recipe action, recipe target, origin, timeout, or confirmation boundary is invalid. The generated browser asset is derived from the validated canonical UI map.
 
-The package does not yet route the minimum user questions, call an LLM, track tour progress, or execute browser actions. Those behaviours belong to the later agent-routing, Pipe, and Guide Bridge tickets.
+The content-aware agent constructor adds deterministic, grounded responses:
+
+```python
+guide = HowToAgent.from_content_files(
+    process_path="agent/process_definition.example.yaml",
+    manual_path="knowledge/open-webui-instruction-manual.md",
+    ui_map_path="knowledge/ui-map.yaml",
+    recipe_directory="knowledge/recipes",
+)
+
+reply = guide.respond(
+    "What agents do I have access to?",
+    context=context,
+)
+```
+
+The guide currently routes the required starter questions, semantic highlight requests, and the versioned `getting_started` trigger without an LLM. It returns validated directives but does not execute browser actions. It also does not yet persist multi-turn tour progress; those behaviours belong to the Pipe and Guide Bridge tickets.

@@ -18,6 +18,12 @@ Compose starts a small internal `hello-provider` service alongside Open WebUI. I
 
 The implementation is in [`mock_provider/server.py`](mock_provider/server.py) and uses only the Python standard library. It is not intended for deployment or extension into the future agent.
 
+## How-To Agent adapter
+
+The source-controlled `functions/howto_pipe.py` adapter exposes the deterministic domain agent as **Open WebUI Guide**. Its user-catalog integration is isolated in `functions/catalog.py` and pinned to the Open WebUI version used by this repository.
+
+The adapter exists in source but is not installed by the current Compose baseline. Reproducible mounts and Function installation are the next integration boundary.
+
 ## Connecting a model provider
 
 The committed baseline configures the internal Hello World provider automatically. When replacing it with a real provider, enable authentication as appropriate and use **Admin Panel -> Settings -> Connections** or update the initial environment configuration on a fresh volume.

@@ -13,6 +13,8 @@
 9. Persist incomplete process state when evidence shows it is needed.
 10. Evaluate whether a more sophisticated agent framework is justified.
 
+The minimal Pipe in step 6 now exists in source. It still needs reproducible container mounts, administrator installation, and live verification before the experiment can treat it as connected to Open WebUI.
+
 ## Questions to answer through experimentation
 
 - Should process state live in conversation context or an external store?
