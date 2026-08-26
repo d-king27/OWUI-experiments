@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Open WebUI Guide Bridge",
   "description": "Adds a local Getting started entry point for the Open WebUI Guide proof of concept.",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "content_scripts": [
     {
       "matches": [
@@ -11,6 +11,8 @@
       ],
       "js": [
         "bridge.js",
+        "recipe-runner.js",
+        "directive-renderer.js",
         "content.js"
       ],
       "css": [
@@ -22,7 +24,8 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "ui-map.json"
+        "ui-map.json",
+        "recipes.json"
       ],
       "matches": [
         "http://localhost:3000/*",

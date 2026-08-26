@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 UI_MAP_PATH = ROOT / "knowledge" / "ui-map.yaml"
 RECIPE_DIRECTORY = ROOT / "knowledge" / "recipes"
 BUILD_SCRIPT_PATH = ROOT / "scripts" / "build-guide-assets.py"
+RECIPE_ASSET_PATH = ROOT / "openwebui" / "guide-extension" / "recipes.json"
 
 
 class UiMapAndRecipeTests(unittest.TestCase):
@@ -31,7 +32,7 @@ class UiMapAndRecipeTests(unittest.TestCase):
         self.assertIn("getting-started-cta", self.ui_map.target_ids)
         self.assertEqual(
             self.ui_map.to_dict()["verification"]["state"],
-            "not_run",
+            "interactive_targets_verified",
         )
 
     def test_loads_allow_listed_recipes(self) -> None:
@@ -95,6 +96,46 @@ class UiMapAndRecipeTests(unittest.TestCase):
             )
             self.assertTrue(module.build_asset(UI_MAP_PATH, output, check=True))
 
+    def test_build_script_generates_current_recipe_asset(self) -> None:
+        specification = importlib.util.spec_from_file_location(
+            "build_guide_assets_recipes",
+            BUILD_SCRIPT_PATH,
+        )
+        assert specification is not None and specification.loader is not None
+        module = importlib.util.module_from_spec(specification)
+        specification.loader.exec_module(module)
+
+        with TemporaryDirectory() as directory:
+            output = Path(directory) / "recipes.json"
+            self.assertTrue(
+                module.build_recipe_asset(
+                    RECIPE_DIRECTORY,
+                    UI_MAP_PATH,
+                    output,
+                )
+            )
+            expected = {
+                "schema_version": 1,
+                "id": "open_webui_poc_recipe_registry",
+                "recipes": [recipe.to_dict() for recipe in self.registry.recipes],
+            }
+            self.assertEqual(
+                json.loads(output.read_text(encoding="utf-8")),
+                expected,
+            )
+            self.assertTrue(
+                module.build_recipe_asset(
+                    RECIPE_DIRECTORY,
+                    UI_MAP_PATH,
+                    output,
+                    check=True,
+                )
+            )
+            self.assertEqual(
+                json.loads(RECIPE_ASSET_PATH.read_text(encoding="utf-8")),
+                expected,
+            )
+
     def _recipe_definition(self, recipe_id: str) -> dict:
         recipe = self.registry.get(recipe_id)
         assert recipe is not None
@@ -109,4 +150,3 @@ class UiMapAndRecipeTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

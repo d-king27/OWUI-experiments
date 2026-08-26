@@ -26,7 +26,7 @@ The Compose service mounts `agent/`, `knowledge/`, and `openwebui/` read-only be
 
 After the service is healthy, an administrator creates an API key and `scripts/install-howto-function.ps1` creates and enables the Function through the authenticated administrator API. The Compose baseline enables API-key support; disabling interactive UI authentication does not make these administrator routes anonymous. Installation remains an explicit operation because Functions execute trusted server-side Python and are persisted in the Open WebUI data volume.
 
-The browser-only **Getting started** entry point lives in `guide-extension/`. Load that directory as an unpacked Chrome or Edge extension for the two configured local origins. The extension is intentionally separate from the container because server Functions cannot manipulate a user's DOM. Its Ticket 6 implementation confirms and emits an allow-listed recipe request but performs no page automation until the recipe runner is installed.
+The browser-only **Getting started** entry point and deterministic recipe runner live in `guide-extension/`. Load that directory as an unpacked Chrome or Edge extension for the two configured local origins. The extension is intentionally separate from the container because server Functions cannot manipulate a user's DOM. It independently validates exact recipes and verified locators, obtains confirmation, preflights availability, and provides visible progress and Escape cancellation.
 
 ## Connecting a model provider
 

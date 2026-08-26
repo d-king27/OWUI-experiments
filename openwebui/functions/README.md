@@ -63,7 +63,7 @@ The Pipe appends one block per directive:
 ```
 ````
 
-The Guide Bridge validates its CTA recipe handoff independently. Later directive-rendering work must likewise validate the version, kind, target or recipe, and confirmation boundary before exposing a message-level UI control.
+The Guide Bridge validates its CTA recipe handoff and assistant-message directives independently. Only exact version 1 highlights and the confirmation-gated Hello World recipe become message-level controls; malformed or unknown transports remain inert.
 
 ## Security
 

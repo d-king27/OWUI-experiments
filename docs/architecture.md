@@ -10,7 +10,7 @@ This project provides a replaceable local environment for experimenting with a c
 
 Open WebUI owns chat interaction, model selection, conversation display, and administration. It is an interaction layer rather than the home of the project's business logic.
 
-The unpacked Guide Bridge is a separate browser-only adapter. It owns the persistent CTA and confirmation UI, validates the same source-generated semantic UI map independently, and passes only an allow-listed recipe request to the future runner. The server-side Pipe cannot access or manipulate the browser DOM.
+The unpacked Guide Bridge is a separate browser-only adapter. It owns the persistent CTA, confirmation UI, and deterministic recipe runner. It independently validates source-generated UI-map and recipe assets before performing only allow-listed browser actions. The server-side Pipe cannot access or manipulate the browser DOM.
 
 ### LLM
 
@@ -32,7 +32,7 @@ Open WebUI -> thin adapter -> HowToAgent -> process and knowledge
 
 The source-controlled Pipe Function is the server adapter. Its responsibility is limited to translating Open WebUI messages and the current user's visible chat choices into domain contracts, calling `HowToAgent.respond`, and serializing the resulting Markdown and validated directives. Open WebUI v0.11.0 internal catalog imports are isolated in `openwebui/functions/catalog.py` so version changes do not leak into domain logic.
 
-The Guide Bridge is the browser adapter. Its first increment mounts a persistent CTA, obtains explicit confirmation, and passes a versioned local request for the single `launch-getting-started` recipe through a private extension-world registration API. Unhandled requests fail closed and do not alter the page. Recipe execution and message-directive rendering remain separate increments.
+The Guide Bridge is the browser adapter. It mounts a persistent CTA, obtains explicit confirmation, and passes a versioned local request through a private extension-world registration API. The runner validates exact source-generated contracts, preconditions the complete recipe, enforces per-step and total timeouts, shows progress, and aborts without later actions on Escape. The directive renderer independently validates assistant-only `owui-action` blocks before exposing local highlight or confirmed recipe controls.
 
 ## Deferred decisions
 

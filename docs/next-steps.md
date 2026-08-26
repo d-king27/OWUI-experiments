@@ -15,7 +15,7 @@
 
 The minimal Pipe in step 6 now exists in source with reproducible read-only container mounts and an idempotent administrator installer. Its imports and mounted content have been verified in the pinned running container. An administrator still needs to create an API key and run the installer before the local UI exposes the guide as a selectable Function.
 
-The Guide Bridge extension foundation also exists: it injects a deduplicated local CTA, provides accessible confirmation and cancellation, and fails closed at a versioned recipe handoff. The next browser increment is the independently validating, consent-gated recipe runner; message directive rendering and highlighting follow it.
+The Guide Bridge now injects a deduplicated local CTA, runs independently validated consent-gated recipes, and replaces valid assistant `owui-action` blocks with **Show me** and **Run example** controls. The remaining PoC work is end-to-end browser coverage, manual responsive/accessibility verification, observability review, and consolidated setup/reset documentation.
 
 ## Questions to answer through experimentation
 

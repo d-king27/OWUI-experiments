@@ -39,8 +39,6 @@ preconditions:
     value: Open WebUI Guide
   - check: target_available
     target: message-composer
-  - check: target_available
-    target: send-button
 
 steps:
   - id: open_new_chat
@@ -94,4 +92,3 @@ on_cancel:
   action: stop
   clear_highlights: true
   message: Getting Started was stopped.
-

@@ -3,11 +3,11 @@ id: open_webui_poc_ui_map
 status: draft
 target_open_webui_version: v0.11.0
 verification:
-  state: not_run
+  state: interactive_targets_verified
   note: >-
-    The navigation-actions mount target was inspected read-only against the
-    Compose-pinned Open WebUI v0.11.0 build. Interactive targets must still be
-    verified before any click, type, selection, or submission action is enabled.
+    Navigation, new-chat, model-picker, message-composer, and send-button
+    locators were inspected against the Compose-pinned Open WebUI v0.11.0
+    build. Assistant-message was verified read-only in a Temporary Chat.
 
 allowed_origins:
   - http://localhost:3000
@@ -50,37 +50,40 @@ targets:
     description: Starts a new conversation without modifying the current chat.
     capabilities: [highlight, click]
     risk: changes_navigation
-    verification: required
+    verification: verified_v0.11.0
     locators:
-      - kind: role
-        role: button
-        name_pattern: "(?i)^new chat$"
-        confidence: medium
       - kind: role
         role: link
         name_pattern: "(?i)^new chat$"
-        confidence: medium
+        confidence: high
+      - kind: role
+        role: button
+        name_pattern: "(?i)^new chat$"
+        confidence: low
 
   model-picker:
     description: Opens the list of chat choices and displays the selected choice.
     capabilities: [highlight, click, choose_option, inspect_options]
     risk: changes_model_selection
-    verification: required
+    verification: verified_v0.11.0
     locators:
       - kind: role
         role: button
-        name_pattern: "(?i)(select a model|models?|chat choice)"
-        confidence: medium
-      - kind: css_fallback
+        name_pattern: "(?i)^(selected model:|select a model)"
+        confidence: high
+      - kind: css
         selector: "button[aria-haspopup='listbox']"
-        confidence: low
+        confidence: high
 
   message-composer:
     description: Main input where the user writes a chat request.
     capabilities: [highlight, type]
     risk: changes_draft
-    verification: required
+    verification: verified_v0.11.0
     locators:
+      - kind: css
+        selector: "#chat-input[contenteditable='true']"
+        confidence: high
       - kind: role
         role: textbox
         name_pattern: "(?i)(message|prompt|chat)"
@@ -96,25 +99,28 @@ targets:
     description: Submits the current message composer contents.
     capabilities: [highlight, click]
     risk: submits_message
-    verification: required
+    verification: verified_v0.11.0
     locators:
+      - kind: css
+        selector: "form button[type='submit']"
+        confidence: high
       - kind: role
         role: button
         name_pattern: "(?i)(send|submit)"
         confidence: medium
-      - kind: css_fallback
-        selector: "button[type='submit']"
-        confidence: low
 
   assistant-message:
     description: Most recent rendered assistant response in the active conversation.
     capabilities: [highlight, read_fixed_assertion, wait_for_text]
     risk: read_only
-    verification: required
+    verification: verified_read_only_v0.11.0
     resolution:
       allow_multiple: true
       selection: last_visible_match
     locators:
+      - kind: css
+        selector: ".chat-assistant .markdown-prose"
+        confidence: high
       - kind: css_fallback
         selector: "[data-message-role='assistant']"
         confidence: low

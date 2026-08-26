@@ -2,7 +2,7 @@
 
 ## Status
 
-- **Status:** Proposed
+- **Status:** Implementation in progress (Tickets 1-8 complete)
 - **Scope:** Proof of concept
 - **Target Open WebUI version:** The version pinned by `WEBUI_DOCKER_TAG` in this repository
 - **Primary user outcome:** A new user can discover the guide, understand the core Open WebUI concepts, and complete a safe guided example from inside Open WebUI.
@@ -626,4 +626,3 @@ The trigger contract, manual, domain agent, and recipe schema remain useful unde
 - Repository architecture: `docs/architecture.md`
 - Existing agent package: `agent/src/howto_agent/agent.py`
 - Existing Hello World explanation: `knowledge/example-process.md`
-

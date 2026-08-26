@@ -25,7 +25,15 @@ class GuideExtensionManifestTests(unittest.TestCase):
                 "http://127.0.0.1:3000/*",
             },
         )
-        self.assertEqual(content_script["js"], ["bridge.js", "content.js"])
+        self.assertEqual(
+            content_script["js"],
+            [
+                "bridge.js",
+                "recipe-runner.js",
+                "directive-renderer.js",
+                "content.js",
+            ],
+        )
         self.assertEqual(content_script["css"], ["guide.css"])
 
     def test_every_declared_extension_asset_exists(self) -> None:
@@ -50,6 +58,8 @@ class GuideExtensionDomTests(unittest.TestCase):
                 "node",
                 "--test",
                 str(ROOT / "tests" / "browser" / "guide-bridge.test.mjs"),
+                str(ROOT / "tests" / "browser" / "recipe-runner.test.mjs"),
+                str(ROOT / "tests" / "browser" / "directive-renderer.test.mjs"),
             ],
             cwd=ROOT,
             capture_output=True,

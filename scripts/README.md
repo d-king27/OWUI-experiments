@@ -6,19 +6,19 @@ The public developer interface will remain the root `Makefile`, with direct Dock
 
 ## Guide assets
 
-`build-guide-assets.py` validates `knowledge/ui-map.yaml` through the domain package and generates `openwebui/guide-extension/ui-map.json`:
+`build-guide-assets.py` validates `knowledge/ui-map.yaml` and `knowledge/recipes/*.yaml` through the domain package, then generates `openwebui/guide-extension/ui-map.json` and `openwebui/guide-extension/recipes.json`:
 
 ```powershell
 python scripts/build-guide-assets.py
 ```
 
-Use check mode in CI to detect an absent or stale generated asset without changing it:
+Use check mode in CI to detect an absent or stale generated asset without changing either file:
 
 ```powershell
 python scripts/build-guide-assets.py --check
 ```
 
-The YAML file is canonical. Do not edit the generated JSON by hand.
+The YAML files are canonical. Do not edit the generated JSON by hand.
 
 ## Install the Open WebUI Guide Function
 

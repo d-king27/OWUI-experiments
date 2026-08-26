@@ -34,8 +34,6 @@ preconditions:
     value: hello-world
   - check: target_available
     target: message-composer
-  - check: target_available
-    target: send-button
 
 steps:
   - id: open_model_picker
@@ -94,20 +92,13 @@ on_success:
 on_failure:
   action: stop
   clear_highlights: true
-  restore_option:
-    target: model-picker
-    value: Open WebUI Guide
-    only_if_available: true
   message: >-
     The expected fixed response did not appear. The example stopped without
-    resubmitting the message.
+    resubmitting the message or attempting further UI actions.
 
 on_cancel:
   action: stop
   clear_highlights: true
-  restore_option:
-    target: model-picker
-    value: Open WebUI Guide
-    only_if_available: true
-  message: The Hello World example was stopped.
-
+  message: >-
+    The Hello World example was stopped. No further clicks or submissions were
+    attempted.

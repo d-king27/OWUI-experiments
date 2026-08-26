@@ -101,7 +101,7 @@ Select **Open WebUI Guide** in the model selector and ask `What is Open WebUI?`.
 
 Load [openwebui/guide-extension](openwebui/guide-extension) as an unpacked Chrome or Edge extension, then reload the local Open WebUI page. The extension injects one persistent **Getting started** CTA and asks for confirmation without changing the current chat when cancelled.
 
-Ticket 6 intentionally stops at the safe browser handoff. Until the consent-gated recipe runner is added, confirming **Start guide** reports that automation is unavailable and performs no partial UI actions. See the [Guide Bridge instructions](openwebui/guide-extension/README.md) for installation, security boundaries, tests, and removal.
+The consent-gated runner validates source-generated recipes independently, preflights the full launch, shows visible progress, and lets Escape stop it before any later UI action. Valid assistant directives become local **Show me** and **Run example** controls; malformed and user-authored directive blocks remain inert. If **Open WebUI Guide** is unavailable, launch fails before starting a new chat. See the [Guide Bridge instructions](openwebui/guide-extension/README.md) and [UI automation security](docs/ui-automation-security.md) for installation, boundaries, tests, and removal.
 
 Authentication is disabled for this local baseline, and port 3000 is bound to the loopback interface rather than the local network. Changing authentication mode later requires a fresh Open WebUI data volume.
 
