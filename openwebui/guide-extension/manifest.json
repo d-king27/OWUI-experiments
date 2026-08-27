@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Open WebUI Guide Bridge",
   "description": "Adds a local Getting started entry point for the Open WebUI Guide proof of concept.",
-  "version": "0.3.0",
+  "version": "0.4.2",
   "content_scripts": [
     {
       "matches": [
@@ -11,6 +11,7 @@
       ],
       "js": [
         "bridge.js",
+        "telemetry.js",
         "recipe-runner.js",
         "directive-renderer.js",
         "content.js"

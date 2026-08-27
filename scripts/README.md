@@ -43,3 +43,7 @@ Options:
 The Compose baseline sets `ENABLE_API_KEYS=true`, but an administrator must still create the credential in Open WebUI. `WEBUI_AUTH=false` does not make administrator Function routes anonymous. The installer fails before making a request when no key is supplied, then calls the administrator-only Function list endpoint. Invalid or unauthorized keys therefore stop the script instead of being interpreted as a missing Function. Existing source is normalized only for line endings before comparison. It is never overwritten unless `-Update` is present, and the key is never printed.
 
 The Function database stores a copy of `howto_pipe.py`; re-run with `-Update` after changing that file. Changes to the mounted domain package and knowledge are picked up when the Function module or container is reloaded.
+
+## PoC verification
+
+The consolidated setup, automated checks, browser walkthrough, viewport matrix, observability limits, and reset levels are documented in [`docs/poc-runbook.md`](../docs/poc-runbook.md). Its optional visual fixture is served with Python's loopback-only static server and uses the production extension scripts and CSS.

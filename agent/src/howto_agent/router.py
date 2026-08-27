@@ -105,7 +105,7 @@ _TARGET_PATTERNS = (
     ),
     (
         "new-chat",
-        re.compile(r"\bnew\s+chat\b", re.IGNORECASE),
+        re.compile(r"\b(?:new\s+chat|chat\s+button)\b", re.IGNORECASE),
     ),
 )
 

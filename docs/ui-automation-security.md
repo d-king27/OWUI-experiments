@@ -25,7 +25,7 @@ While a recipe is active:
 - Each wait has a bounded timeout and the whole recipe has a maximum duration.
 - Escape aborts the active wait and prevents every subsequent click, selection, type, or submission.
 - Failures and cancellation clear active highlights and do not run restoration actions.
-- Only coarse event name, recipe ID, step-independent error category, and schema version may enter local telemetry events.
+- Only an allow-listed event name, recipe ID, source-controlled step ID on failure, coarse error category, and schema version may enter local telemetry events. A dedicated validator rejects all other fields before the local event is dispatched.
 - Highlight controls resolve semantic IDs through the source-generated UI map, scroll the unique target into view, identify it in visible status text, and clear on Escape or timeout.
 
 The runner never targets authentication, accounts, administration, deletion, uploads, provider settings, passwords, or credentials.

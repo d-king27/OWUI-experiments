@@ -2,9 +2,10 @@
   "use strict";
 
   const api = globalThis.HowToGuideBridge;
+  const telemetryApi = globalThis.HowToGuideTelemetry;
   const runnerApi = globalThis.HowToGuideRecipeRunner;
   const rendererApi = globalThis.HowToGuideDirectiveRenderer;
-  if (!api || !runnerApi || !rendererApi) {
+  if (!api || !telemetryApi || !runnerApi || !rendererApi) {
     return;
   }
 
@@ -28,12 +29,11 @@
     return;
   }
 
-  const emitTelemetry = (name, recipe, category) => {
-    const detail = { name, version: 1 };
-    if (recipe) detail.recipe = recipe;
-    if (category) detail.category = category;
-    globalThis.dispatchEvent(new CustomEvent(api.TELEMETRY_EVENT, { detail }));
-  };
+  const emitTelemetry = telemetryApi.createTelemetryEmitter({
+    scope: globalThis,
+    CustomEvent,
+    eventName: api.TELEMETRY_EVENT,
+  });
 
   let runner;
   try {

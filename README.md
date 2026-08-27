@@ -8,7 +8,9 @@ The project is intentionally small and modular. Open WebUI provides the interact
 
 The repository foundation and a working local Open WebUI baseline are in place. A deterministic development provider exposes a `hello-world` model so the chat UI can be tested without credentials or a real LLM. The framework-independent agent package can load the guide content, navigate the example process, answer the required onboarding questions, and return validated UI directives. A source-controlled Pipe adapter now exposes that behaviour as **Open WebUI Guide**, but it is not installed into the Compose baseline yet.
 
-The proposed proof-of-concept design, including a selectable guide, persistent **Getting started** CTA, UI highlighting, and consent-gated demonstration, is documented in [docs/howto-agent-proposal.md](docs/howto-agent-proposal.md).
+The proof-of-concept implementation now includes the selectable guide, persistent **Getting started** CTA, UI highlighting, consent-gated demonstration, browser contracts, and operational runbook. Its design and trade-offs are documented in [docs/howto-agent-proposal.md](docs/howto-agent-proposal.md).
+
+LLM-backed task understanding and model recommendations are deferred to the [Anthropic-backed task-planning proposal](docs/next-phase-anthropic-task-planning.md). The current Guide uses deterministic Markdown section lookup; it does not run the draft system prompt or call an AI model.
 
 ## Architecture
 
@@ -59,7 +61,9 @@ Create local configuration in PowerShell:
 
 ```powershell
 Copy-Item .env.example .env
-python -c "import secrets; print(secrets.token_hex(32))"
+$secretBytes = [byte[]]::new(32)
+[Security.Cryptography.RandomNumberGenerator]::Fill($secretBytes)
+[Convert]::ToHexString($secretBytes).ToLowerInvariant()
 ```
 
 Replace the placeholder `WEBUI_SECRET_KEY` in `.env` with the generated value, then start the baseline:
@@ -76,7 +80,21 @@ Hello, world! The baseline chat connection is working.
 
 ## Install the Open WebUI Guide
 
-The Compose service mounts the guide package, knowledge, and adapters read-only, and enables Open WebUI API-key authentication. After Open WebUI is healthy, create an administrator API key in Open WebUI, keep it outside source control, and install the source-controlled Pipe with PowerShell 7:
+An Open WebUI API key, OpenAI key, paid account, and actual LLM are not required. The primary PoC path is to install the source-controlled Pipe manually through the local Open WebUI administrator interface:
+
+1. Open [openwebui/functions/howto_pipe.py](openwebui/functions/howto_pipe.py) and copy the entire file.
+2. In Open WebUI, open **Admin Panel → Functions**. Some layouts expose this under **Workspace → Functions**.
+3. Choose **Create**.
+4. Set the ID to `open_webui_guide`, the name to **Open WebUI Guide**, and paste the complete Function source.
+5. Save and enable the Function, then reload the chat.
+
+The Compose service has already mounted the guide package, knowledge, and adapters read-only. Select **Open WebUI Guide** in the model selector and ask `What is Open WebUI?`. The Pipe is deterministic and does not require an LLM provider.
+
+For a standalone walkthrough suitable for sharing, including startup, manual installation, extension testing, troubleshooting, and reset instructions, use [Start the Open WebUI Guide PoC without an API key](docs/getting-started-without-api-key.md).
+
+### Optional automated Function installation
+
+If an administrator Open WebUI API key is available, PowerShell 7 can install the same Function through the local API:
 
 ```powershell
 $env:OPEN_WEBUI_API_KEY = "<admin-api-key>"
@@ -95,13 +113,11 @@ You can alternatively pass the administrator API key explicitly:
 ./scripts/install-howto-function.ps1 -ApiKey $env:OPEN_WEBUI_API_KEY
 ```
 
-Select **Open WebUI Guide** in the model selector and ask `What is Open WebUI?`. The Pipe is deterministic and does not require an LLM provider.
-
 ## Install the Getting started CTA
 
 Load [openwebui/guide-extension](openwebui/guide-extension) as an unpacked Chrome or Edge extension, then reload the local Open WebUI page. The extension injects one persistent **Getting started** CTA and asks for confirmation without changing the current chat when cancelled.
 
-The consent-gated runner validates source-generated recipes independently, preflights the full launch, shows visible progress, and lets Escape stop it before any later UI action. Valid assistant directives become local **Show me** and **Run example** controls; malformed and user-authored directive blocks remain inert. If **Open WebUI Guide** is unavailable, launch fails before starting a new chat. See the [Guide Bridge instructions](openwebui/guide-extension/README.md) and [UI automation security](docs/ui-automation-security.md) for installation, boundaries, tests, and removal.
+The consent-gated runner validates source-generated recipes independently, preflights the full launch, shows visible progress, and lets Escape stop it before any later UI action. Valid assistant directives become local **Show me** and **Run example** controls; malformed and user-authored directive blocks remain inert. If **Open WebUI Guide** is unavailable, launch fails before starting a new chat. Use the [PoC runbook](docs/poc-runbook.md) for consolidated setup, acceptance verification, limitations, observability, and reset instructions. The [Guide Bridge instructions](openwebui/guide-extension/README.md) and [UI automation security](docs/ui-automation-security.md) document the component boundaries.
 
 Authentication is disabled for this local baseline, and port 3000 is bound to the loopback interface rather than the local network. Changing authentication mode later requires a fresh Open WebUI data volume.
 

@@ -45,7 +45,9 @@ knowledge/ui-map.yaml
 knowledge/recipes/*.yaml
 ```
 
-The committed Compose service mounts these paths read-only. After Open WebUI is healthy, create an administrator API key, set `OPEN_WEBUI_API_KEY`, and run `scripts/install-howto-function.ps1` to create and enable the Function. The installer refuses changed stored source unless `-Update` is supplied.
+The committed Compose service mounts these paths read-only. No API key is required for manual installation: create `open_webui_guide` in the Open WebUI Functions administrator interface, paste the complete `howto_pipe.py` source, save it, and enable it. See [the no-key getting-started guide](../../docs/getting-started-without-api-key.md).
+
+When an administrator Open WebUI API key is available, `scripts/install-howto-function.ps1` can automate the same create-and-enable operation. The installer refuses changed stored source unless `-Update` is supplied.
 
 ## User-visible catalog
 

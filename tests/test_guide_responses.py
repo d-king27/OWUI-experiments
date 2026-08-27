@@ -54,6 +54,7 @@ class GuideRouterTests(unittest.TestCase):
             "Where do I type?": "message-composer",
             "Where will the answer appear?": "assistant-message",
             "Show me the send button": "send-button",
+            "Show me the chat button": "new-chat",
         }
 
         for message, expected_target in cases.items():
@@ -186,4 +187,3 @@ class GroundedGuideResponseTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

@@ -89,6 +89,16 @@ class FakeElement {
   removeAttribute(name) {
     this.attributes.delete(name);
   }
+  remove() {
+    if (!this.parentNode) return;
+    this.parentNode.children = this.parentNode.children.filter(
+      (child) => child !== this,
+    );
+    this.parentNode = null;
+  }
+  getBoundingClientRect() {
+    return { left: 20, top: 30, width: 160, height: 32 };
+  }
   getClientRects() {
     return this.hidden ? [] : [{}];
   }
@@ -195,6 +205,13 @@ function matchesSelector(element, selector) {
       element.closest(".chat-assistant") !== null
     );
   }
+  if (selector === ".chat-assistant .language-owui-action .cm-content") {
+    return (
+      element.classList.contains("cm-content") &&
+      element.closest(".language-owui-action") !== null &&
+      element.closest(".chat-assistant") !== null
+    );
+  }
   if (selector === "button[aria-haspopup='listbox']") {
     return (
       element.tagName === "BUTTON" &&
@@ -203,6 +220,9 @@ function matchesSelector(element, selector) {
   }
   if (selector === "[data-howto-guide-highlight='true']") {
     return element.getAttribute("data-howto-guide-highlight") === "true";
+  }
+  if (selector === "[data-howto-guide-highlight-overlay='true']") {
+    return element.dataset.howtoGuideHighlightOverlay === "true";
   }
   if (selector.startsWith(".")) {
     return element.classList.contains(selector.slice(1));
@@ -229,6 +249,28 @@ function addUserDirective(document, payload) {
   const directive = addDirective(document, payload);
   directive.wrapper.className = "chat-user";
   return directive;
+}
+
+
+function addCodeMirrorDirective(document, payload, messageClass = "chat-assistant") {
+  const wrapper = document.createElement("div");
+  wrapper.className = messageClass;
+  const component = document.createElement("div");
+  component.className = "relative flex flex-col";
+  const languageBlock = document.createElement("div");
+  languageBlock.className = "language-owui-action";
+  const editor = document.createElement("div");
+  editor.className = "cm-editor";
+  const content = document.createElement("div");
+  content.className = "cm-content";
+  content.setAttribute("role", "textbox");
+  content.textContent = payload;
+  editor.appendChild(content);
+  languageBlock.appendChild(editor);
+  component.appendChild(languageBlock);
+  wrapper.appendChild(component);
+  document.body.appendChild(wrapper);
+  return { component, content, languageBlock, wrapper };
 }
 
 
@@ -333,6 +375,10 @@ test("replaces a valid block once and Show me highlights the semantic target", (
   assert.equal(document.querySelectorAll(".howto-guide__directive").length, 1);
   assert.equal(picker.classList.contains("howto-guide__highlight"), true);
   assert.equal(picker.scrolled, true);
+  assert.equal(
+    document.querySelectorAll("[data-howto-guide-highlight-overlay='true']").length,
+    1,
+  );
   assert.match(
     document.querySelectorAll(".howto-guide__directive-status")[0].textContent,
     /Highlighted:/,
@@ -340,6 +386,28 @@ test("replaces a valid block once and Show me highlights the semantic target", (
 
   document.dispatchKey("Escape");
   assert.equal(picker.classList.contains("howto-guide__highlight"), false);
+  assert.equal(
+    document.querySelectorAll("[data-howto-guide-highlight-overlay='true']").length,
+    0,
+  );
+  renderer.stop();
+});
+
+
+test("replaces the CodeMirror transport emitted by Open WebUI v0.11", () => {
+  const { document, picker, renderer } = setup();
+  const { component, content } = addCodeMirrorDirective(
+    document,
+    '{"version":1,"kind":"highlight","requires_confirmation":false,"target":"model-picker"}',
+  );
+
+  assert.equal(renderer.start(), true);
+  findButton(document, "Show me").dispatchEvent({ type: "click" });
+
+  assert.equal(component.hidden, true);
+  assert.equal(content.dataset.howtoDirectiveProcessed, "true");
+  assert.equal(document.querySelectorAll(".howto-guide__directive").length, 1);
+  assert.equal(picker.classList.contains("howto-guide__highlight"), true);
   renderer.stop();
 });
 
@@ -373,6 +441,22 @@ test("valid-looking directives in user messages remain inert", () => {
   renderer.start();
 
   assert.equal(userDirective.pre.hidden, false);
+  assert.equal(document.querySelectorAll(".howto-guide__directive").length, 0);
+  renderer.stop();
+});
+
+
+test("valid-looking CodeMirror directives in user messages remain inert", () => {
+  const { document, renderer } = setup();
+  const userDirective = addCodeMirrorDirective(
+    document,
+    '{"version":1,"kind":"highlight","requires_confirmation":false,"target":"model-picker"}',
+    "chat-user",
+  );
+
+  renderer.start();
+
+  assert.equal(userDirective.component.hidden, false);
   assert.equal(document.querySelectorAll(".howto-guide__directive").length, 0);
   renderer.stop();
 });

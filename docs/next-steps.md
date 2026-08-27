@@ -15,7 +15,11 @@
 
 The minimal Pipe in step 6 now exists in source with reproducible read-only container mounts and an idempotent administrator installer. Its imports and mounted content have been verified in the pinned running container. An administrator still needs to create an API key and run the installer before the local UI exposes the guide as a selectable Function.
 
-The Guide Bridge now injects a deduplicated local CTA, runs independently validated consent-gated recipes, and replaces valid assistant `owui-action` blocks with **Show me** and **Run example** controls. The remaining PoC work is end-to-end browser coverage, manual responsive/accessibility verification, observability review, and consolidated setup/reset documentation.
+The Open WebUI Guide PoC is implemented through Ticket 9. The Guide Bridge injects a deduplicated local CTA, runs independently validated consent-gated recipes, and replaces valid assistant `owui-action` blocks with **Show me** and **Run example** controls. Cross-component browser contracts, every-step Escape coverage, a responsive visual fixture, a privacy-constrained local telemetry boundary, and a consolidated [PoC runbook](poc-runbook.md) now cover the final hardening scope.
+
+The next decision is whether the experiment justifies a production path. Before that decision, run the documented live acceptance walkthrough with the intended browser fleet and record any Open WebUI upgrade drift.
+
+Broader task understanding and model recommendations are deliberately benched for the current PoC. The proposed follow-on is documented in [Next phase: Anthropic-backed task planning](next-phase-anthropic-task-planning.md): connect Anthropic first, then introduce a constrained planner, organization-owned capability profiles, a spreadsheet-help vertical slice, and finally the native welcome-page CTA.
 
 ## Questions to answer through experimentation
 

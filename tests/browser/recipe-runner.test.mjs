@@ -167,8 +167,7 @@ function setup({
     actions: actions || successfulActions(events),
     statusView: fakeStatusView(events),
     confirmRecipe,
-    emitTelemetry: (name, recipe, category) =>
-      telemetry.push({ name, recipe, category }),
+    emitTelemetry: (name, fields = {}) => telemetry.push({ name, ...fields }),
   });
   return { document, events, runner, telemetry };
 }
@@ -267,6 +266,44 @@ test("Escape aborts an active step and no later action runs", async () => {
   assert.equal(events.filter(([kind]) => kind === "clear").length >= 1, true);
   assert.equal(telemetry.at(-1).name, "guide_recipe_cancelled");
   runner.dispose();
+});
+
+
+test("Escape stops before every later step in both source-controlled recipes", async () => {
+  for (const recipe of RECIPES.recipes) {
+    for (const [cancelIndex, expectedStep] of recipe.steps.entries()) {
+      const events = [];
+      let signalStepStarted;
+      const stepStarted = new Promise((resolve) => {
+        signalStepStarted = resolve;
+      });
+      const actions = successfulActions(events);
+      actions.runStep = async (step, _timeout, signal) => {
+        events.push(["action", step.id]);
+        if (step.id !== expectedStep.id) return;
+        signalStepStarted();
+        await new Promise((_resolve, reject) => {
+          signal.addEventListener("abort", () => reject(new Error("aborted")), {
+            once: true,
+          });
+        });
+      };
+      const { document, runner } = setup({ actions });
+
+      const run = runner.startRecipe(recipe.id);
+      await stepStarted;
+      document.dispatchKey("Escape");
+      const outcome = await run;
+
+      assert.equal(outcome.status, "cancelled", `${recipe.id}:${expectedStep.id}`);
+      assert.deepEqual(
+        events.filter(([kind]) => kind === "action").map(([, id]) => id),
+        recipe.steps.slice(0, cancelIndex + 1).map((step) => step.id),
+        `${recipe.id}:${expectedStep.id}`,
+      );
+      runner.dispose();
+    }
+  }
 });
 
 
@@ -423,6 +460,10 @@ test("DOM actions resolve verified targets, fixed values, options, and highlight
   assert.deepEqual(composer.events, ["input"]);
   assert.equal(option.clickCount, 1);
   assert.equal(assistant.classList.contains("howto-guide__highlight"), true);
+  assert.equal(
+    assistant.getAttribute("data-howto-guide-highlight-label"),
+    "Guide target",
+  );
   assert.equal(assistant.scrolled, true);
   assert.equal(
     await actions.checkPrecondition(
@@ -434,4 +475,5 @@ test("DOM actions resolve verified targets, fixed values, options, and highlight
   );
   actions.clearHighlights();
   assert.equal(assistant.classList.contains("howto-guide__highlight"), false);
+  assert.equal(assistant.getAttribute("data-howto-guide-highlight-label"), null);
 });

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Guide Bridge visual verification</title>
+    <link rel="stylesheet" href="../../../openwebui/guide-extension/guide.css">
+    <style>
+      :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
+      * { box-sizing: border-box; }
+      body { margin: 0; min-height: 100vh; }
+      .shell { display: grid; grid-template-columns: minmax(12rem, 18rem) 1fr; min-height: 100vh; }
+      nav { border-inline-end: 1px solid color-mix(in srgb, CanvasText 20%, transparent); display: flex; flex-direction: column; gap: .5rem; padding: .75rem; }
+      nav a { color: inherit; padding: .625rem; }
+      main { margin: 0 auto; max-width: 55rem; padding: 1rem; width: 100%; }
+      .toolbar, form { align-items: center; display: flex; gap: .5rem; }
+      .toolbar { justify-content: space-between; }
+      .chat-assistant { margin-block: 3rem; }
+      .markdown-prose { line-height: 1.6; }
+      form { border: 1px solid color-mix(in srgb, CanvasText 25%, transparent); border-radius: .75rem; padding: .5rem; }
+      #chat-input { flex: 1; min-height: 3rem; padding: .625rem; }
+      button { font: inherit; }
+      .telemetry { font-size: .75rem; overflow-wrap: anywhere; }
+      @media (max-width: 40rem) {
+        .shell { display: block; }
+        nav { border-block-end: 1px solid color-mix(in srgb, CanvasText 20%, transparent); border-inline-end: 0; flex-direction: row; flex-wrap: wrap; }
+        main { padding: .75rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <nav aria-label="Chat history">
+        <a href="#new" aria-label="New Chat">New Chat</a>
+        <span>Guide Bridge controls mount here.</span>
+      </nav>
+      <main id="main-content">
+        <div class="toolbar">
+          <h1>Guide Bridge visual verification</h1>
+          <button type="button" aria-haspopup="listbox" aria-label="Selected model: Open WebUI Guide">Open WebUI Guide</button>
+        </div>
+        <section class="chat-assistant" aria-label="Assistant response">
+          <div class="markdown-prose">
+            <p>This fixture uses the production extension scripts and styles. Choose <strong>Show me</strong> to verify the labelled highlight.</p>
+            <pre><code class="language-owui-action">{"version":1,"kind":"highlight","requires_confirmation":false,"target":"model-picker"}</code></pre>
+          </div>
+        </section>
+        <form>
+          <div id="chat-input" contenteditable="true" role="textbox" aria-label="Message">Start the getting started tour</div>
+          <button type="submit" aria-label="Send">Send</button>
+        </form>
+        <h2>Local telemetry</h2>
+        <ol id="telemetry" class="telemetry" aria-live="polite"></ol>
+      </main>
+    </div>
+    <script src="../../../openwebui/guide-extension/bridge.js"></script>
+    <script src="../../../openwebui/guide-extension/telemetry.js"></script>
+    <script src="../../../openwebui/guide-extension/recipe-runner.js"></script>
+    <script src="../../../openwebui/guide-extension/directive-renderer.js"></script>
+    <script src="guide-extension-visual.js"></script>
+  </body>
+</html>

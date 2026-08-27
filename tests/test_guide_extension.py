@@ -29,6 +29,7 @@ class GuideExtensionManifestTests(unittest.TestCase):
             content_script["js"],
             [
                 "bridge.js",
+                "telemetry.js",
                 "recipe-runner.js",
                 "directive-renderer.js",
                 "content.js",
@@ -58,6 +59,7 @@ class GuideExtensionDomTests(unittest.TestCase):
                 "node",
                 "--test",
                 str(ROOT / "tests" / "browser" / "guide-bridge.test.mjs"),
+                str(ROOT / "tests" / "browser" / "telemetry.test.mjs"),
                 str(ROOT / "tests" / "browser" / "recipe-runner.test.mjs"),
                 str(ROOT / "tests" / "browser" / "directive-renderer.test.mjs"),
             ],

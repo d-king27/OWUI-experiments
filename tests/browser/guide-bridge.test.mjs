@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import test from "node:test";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import path from "node:path";
@@ -10,8 +11,18 @@ const BRIDGE_PATH = path.resolve(
   "../../openwebui/guide-extension/bridge.js",
 );
 await import(pathToFileURL(BRIDGE_PATH));
+await import(
+  pathToFileURL(path.join(path.dirname(BRIDGE_PATH), "recipe-runner.js"))
+);
 
 const api = globalThis.HowToGuideBridge;
+const runnerApi = globalThis.HowToGuideRecipeRunner;
+const FULL_UI_MAP = JSON.parse(
+  readFileSync(path.join(path.dirname(BRIDGE_PATH), "ui-map.json"), "utf8"),
+);
+const RECIPES = JSON.parse(
+  readFileSync(path.join(path.dirname(BRIDGE_PATH), "recipes.json"), "utf8"),
+);
 
 
 class FakeEvent {
@@ -124,6 +135,7 @@ class FakeElement extends FakeEventTarget {
 
 class FakeDocument {
   constructor() {
+    this.listeners = new Map();
     this.activeElement = null;
     this.documentElement = new FakeElement("html", this);
     this.body = new FakeElement("body", this);
@@ -144,6 +156,19 @@ class FakeDocument {
 
   getElementById(id) {
     return this.querySelectorAll("*").find((element) => element.id === id) || null;
+  }
+
+  addEventListener(type, listener) {
+    const listeners = this.listeners.get(type) || [];
+    listeners.push(listener);
+    this.listeners.set(type, listeners);
+  }
+
+  removeEventListener(type, listener) {
+    this.listeners.set(
+      type,
+      (this.listeners.get(type) || []).filter((candidate) => candidate !== listener),
+    );
   }
 }
 
@@ -323,6 +348,56 @@ test("an accepted handoff passes only the allow-listed launch recipe", async () 
   ]);
   assert.equal(document.querySelector(api.DIALOG_SELECTOR), null);
   assert.deepEqual(telemetry, ["guide_cta_shown", "guide_cta_started"]);
+});
+
+
+test("the CTA confirmation runs the complete validated launch recipe", async () => {
+  const steps = [];
+  const expectedSteps = RECIPES.recipes.find(
+    (recipe) => recipe.id === "launch-getting-started",
+  ).steps.map((step) => step.id);
+  let signalRunCompleted;
+  const runCompleted = new Promise((resolve) => {
+    signalRunCompleted = resolve;
+  });
+  const runnerDocument = new FakeDocument();
+  const runner = runnerApi.createRecipeRunner({
+    document: runnerDocument,
+    location: { origin: "http://localhost:3000" },
+    uiMap: JSON.parse(JSON.stringify(FULL_UI_MAP)),
+    recipeAsset: JSON.parse(JSON.stringify(RECIPES)),
+    actions: {
+      checkPrecondition: async () => true,
+      runStep: async (step) => {
+        steps.push(step.id);
+        if (steps.length === expectedSteps.length) signalRunCompleted();
+      },
+      clearHighlights: () => {},
+    },
+    statusView: {
+      start: () => {},
+      step: () => {},
+      finish: () => {},
+      remove: () => {},
+    },
+    emitTelemetry: () => {},
+  });
+  const unregister = api.registerRecipeRunner(runner.handleConfirmedRequest);
+  const { bridge, document } = setup({
+    requestRecipe: api.requestRegisteredRecipe,
+  });
+
+  await bridge.start();
+  document.querySelector(api.CTA_SELECTOR).dispatchEvent(new FakeEvent("click"));
+  findButton(document, "Start guide").dispatchEvent(new FakeEvent("click"));
+  await runCompleted;
+  await flushAsyncListener();
+
+  assert.deepEqual(steps, expectedSteps);
+  assert.equal(document.querySelector(api.DIALOG_SELECTOR), null);
+
+  unregister();
+  runner.dispose();
 });
 
 

@@ -32,7 +32,7 @@ Open WebUI -> thin adapter -> HowToAgent -> process and knowledge
 
 The source-controlled Pipe Function is the server adapter. Its responsibility is limited to translating Open WebUI messages and the current user's visible chat choices into domain contracts, calling `HowToAgent.respond`, and serializing the resulting Markdown and validated directives. Open WebUI v0.11.0 internal catalog imports are isolated in `openwebui/functions/catalog.py` so version changes do not leak into domain logic.
 
-The Guide Bridge is the browser adapter. It mounts a persistent CTA, obtains explicit confirmation, and passes a versioned local request through a private extension-world registration API. The runner validates exact source-generated contracts, preconditions the complete recipe, enforces per-step and total timeouts, shows progress, and aborts without later actions on Escape. The directive renderer independently validates assistant-only `owui-action` blocks before exposing local highlight or confirmed recipe controls.
+The Guide Bridge is the browser adapter. It mounts a persistent CTA, obtains explicit confirmation, and passes a versioned local request through a private extension-world registration API. The runner validates exact source-generated contracts, preconditions the complete recipe, enforces per-step and total timeouts, shows progress, and aborts without later actions on Escape. The directive renderer independently validates assistant-only `owui-action` blocks before exposing local highlight or confirmed recipe controls. A separate telemetry boundary validates a small lifecycle allow-list before dispatching ephemeral local events; the PoC has no collector or persistence.
 
 ## Deferred decisions
 

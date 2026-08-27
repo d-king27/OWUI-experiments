@@ -5,6 +5,7 @@
     ".chat-assistant pre code.language-owui-action",
     ".chat-assistant pre code[data-language='owui-action']",
     ".chat-assistant pre code[data-lang='owui-action']",
+    ".chat-assistant .language-owui-action .cm-content",
   ].join(",");
   const SAFE_ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
   const MESSAGE_RECIPE_IDS = new Set(["hello-world-demo"]);
@@ -88,9 +89,12 @@
     }
 
     function renderControl(code, directive) {
-      const rawBlock = code.closest("pre");
+      const rawBlock = resolveTransportContainer(code);
       if (!rawBlock?.parentNode) {
-        throw new DirectiveError("missing_transport_container", "Directive has no pre.");
+        throw new DirectiveError(
+          "missing_transport_container",
+          "Directive has no supported transport container.",
+        );
       }
 
       const container = document.createElement("div");
@@ -149,9 +153,32 @@
       clearHighlight();
       target.classList.add("howto-guide__highlight");
       target.setAttribute("data-howto-guide-highlight", "true");
-      target.scrollIntoView({ behavior: "smooth", block: "center" });
+      target.setAttribute("data-howto-guide-highlight-label", "Guide target");
+      target.scrollIntoView({
+        behavior: "auto",
+        block: "center",
+      });
+      createHighlightOverlay(target);
       highlightTimer = schedule(clearHighlight, 5000);
       return target;
+    }
+
+    function createHighlightOverlay(target) {
+      if (typeof target.getBoundingClientRect !== "function") return null;
+      const rect = target.getBoundingClientRect();
+      if (!rect || rect.width <= 0 || rect.height <= 0) return null;
+
+      const overlay = document.createElement("div");
+      overlay.className = "howto-guide__highlight-overlay";
+      overlay.dataset.howtoGuideHighlightOverlay = "true";
+      overlay.setAttribute("aria-hidden", "true");
+      overlay.setAttribute("data-howto-guide-highlight-label", "Guide target");
+      overlay.setAttribute(
+        "style",
+        `left:${rect.left}px;top:${rect.top}px;width:${rect.width}px;height:${rect.height}px`,
+      );
+      document.body.appendChild(overlay);
+      return overlay;
     }
 
     function clearHighlight() {
@@ -164,6 +191,12 @@
       )) {
         target.classList.remove("howto-guide__highlight");
         target.removeAttribute("data-howto-guide-highlight");
+        target.removeAttribute("data-howto-guide-highlight-label");
+      }
+      for (const overlay of document.querySelectorAll(
+        "[data-howto-guide-highlight-overlay='true']",
+      )) {
+        overlay.remove();
       }
     }
 
@@ -217,6 +250,20 @@
       throw new DirectiveError("unsupported_kind", "Directive kind is unsupported.");
     }
     return Object.freeze({ ...directive });
+  }
+
+  function resolveTransportContainer(code) {
+    const pre = code.closest("pre");
+    if (pre) return pre;
+
+    // Open WebUI v0.11 may render fenced code with CodeMirror rather than
+    // retaining a pre/code pair. Hide the complete fenced-code component,
+    // while CODE_SELECTOR keeps discovery inside assistant messages only.
+    const languageBlock = code.closest(".language-owui-action");
+    if (!languageBlock) return null;
+    const component = languageBlock.parentNode;
+    if (component?.closest?.(".chat-assistant")) return component;
+    return languageBlock;
   }
 
   function validateUiMap(uiMap) {

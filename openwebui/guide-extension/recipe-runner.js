@@ -166,7 +166,8 @@
         recipe.limits.total_timeout_ms,
       );
       statusView.start(recipe.title);
-      emitTelemetry("guide_recipe_started", recipe.id);
+      emitTelemetry("guide_recipe_started", { recipe: recipe.id });
+      let currentStepId;
 
       try {
         for (const precondition of recipe.preconditions) {
@@ -186,6 +187,7 @@
 
         for (const step of recipe.steps) {
           assertNotAborted(controller.signal);
+          currentStepId = step.id;
           statusView.step(step.id);
           await actions.runStep(
             step,
@@ -196,13 +198,13 @@
 
         const message = recipe.on_success?.message || "Guide recipe completed.";
         statusView.finish("completed", message);
-        emitTelemetry("guide_recipe_completed", recipe.id);
+        emitTelemetry("guide_recipe_completed", { recipe: recipe.id });
         return { status: "completed", recipe: recipe.id };
       } catch (error) {
         actions.clearHighlights();
         if (controller.signal.aborted && controller.signal.reason === "user_cancelled") {
           statusView.finish("cancelled", recipe.on_cancel.message);
-          emitTelemetry("guide_recipe_cancelled", recipe.id);
+          emitTelemetry("guide_recipe_cancelled", { recipe: recipe.id });
           return { status: "cancelled", recipe: recipe.id };
         }
 
@@ -213,7 +215,11 @@
               ? error.category
               : "unexpected_error";
         statusView.finish("failed", recipe.on_failure.message);
-        emitTelemetry("guide_recipe_failed", recipe.id, category);
+        emitTelemetry("guide_recipe_failed", {
+          recipe: recipe.id,
+          category,
+          ...(currentStepId ? { step: currentStepId } : {}),
+        });
         return { status: "failed", recipe: recipe.id, category };
       } finally {
         cancelSchedule(totalTimer);
@@ -442,7 +448,11 @@
           clearHighlights();
           target.classList.add("howto-guide__highlight");
           target.setAttribute("data-howto-guide-highlight", "true");
-          target.scrollIntoView({ behavior: "smooth", block: "center" });
+          target.setAttribute("data-howto-guide-highlight-label", "Guide target");
+          target.scrollIntoView({
+            behavior: prefersReducedMotion() ? "auto" : "smooth",
+            block: "center",
+          });
           schedule(() => clearHighlights(), step.duration_ms || 5000);
           return;
         }
@@ -584,6 +594,7 @@
       for (const element of document.querySelectorAll("[data-howto-guide-highlight='true']")) {
         element.classList.remove("howto-guide__highlight");
         element.removeAttribute("data-howto-guide-highlight");
+        element.removeAttribute("data-howto-guide-highlight-label");
       }
     }
 
@@ -629,16 +640,21 @@
 
   function showRecipeConfirmation(document, recipe) {
     return new Promise((resolve) => {
+      const previousFocus = document.activeElement;
       const dialog = document.createElement("dialog");
       dialog.className = "howto-guide__dialog";
       dialog.dataset.howtoGuideRecipeConfirmation = "true";
       dialog.setAttribute("aria-modal", "true");
 
       const title = document.createElement("h2");
+      title.id = "howto-guide-recipe-dialog-title";
       title.className = "howto-guide__dialog-title";
       title.textContent = recipe.confirmation.title;
       const body = document.createElement("p");
+      body.id = "howto-guide-recipe-dialog-body";
       body.textContent = recipe.confirmation.body;
+      dialog.setAttribute("aria-labelledby", title.id);
+      dialog.setAttribute("aria-describedby", body.id);
       const actions = document.createElement("div");
       actions.className = "howto-guide__dialog-actions";
       const cancel = document.createElement("button");
@@ -656,6 +672,12 @@
         settled = true;
         dialog.remove();
         resolve(value);
+        const restoreFocus = () => previousFocus?.focus?.();
+        if (typeof globalScope.queueMicrotask === "function") {
+          globalScope.queueMicrotask(restoreFocus);
+        } else {
+          globalScope.setTimeout(restoreFocus, 0);
+        }
       };
       cancel.addEventListener("click", () => finish(false));
       confirm.addEventListener("click", () => finish(true));
@@ -761,6 +783,10 @@
 
   function normalizeText(value) {
     return String(value || "").replace(/\s+/g, " ").trim();
+  }
+
+  function prefersReducedMotion() {
+    return Boolean(globalScope.matchMedia?.("(prefers-reduced-motion: reduce)").matches);
   }
 
   function isBoundedInteger(value, minimum, maximum) {

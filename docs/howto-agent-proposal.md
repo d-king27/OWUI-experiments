@@ -2,7 +2,7 @@
 
 ## Status
 
-- **Status:** Implementation in progress (Tickets 1-8 complete)
+- **Status:** Proof-of-concept implementation complete (Tickets 1-9)
 - **Scope:** Proof of concept
 - **Target Open WebUI version:** The version pinned by `WEBUI_DOCKER_TAG` in this repository
 - **Primary user outcome:** A new user can discover the guide, understand the core Open WebUI concepts, and complete a safe guided example from inside Open WebUI.
@@ -570,6 +570,8 @@ For the proof of concept:
 - Do not commit provider credentials or the local `.env` file.
 
 The installation script should be idempotent or should clearly report when manual administrator action is required. It must not overwrite an existing Function silently.
+
+The implemented setup, verification matrix, limitations, and reset procedure are consolidated in [the PoC runbook](poc-runbook.md).
 
 ## Observability
 
