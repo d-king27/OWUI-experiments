@@ -1,0 +1,105 @@
+name: openwebui-howto-agent
+
+services:
+  hello-provider:
+    image: python:3.12.10-slim-bookworm
+    container_name: howto-agent-hello-provider
+    command: ["python", "/app/server.py"]
+    volumes:
+      - ./openwebui/mock_provider/server.py:/app/server.py:ro
+    environment:
+      PORT: "8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 2s
+    restart: unless-stopped
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG:-v0.11.0}
+    container_name: howto-agent-open-webui
+    ports:
+      - "127.0.0.1:${OPEN_WEBUI_PORT:-3000}:8080"
+    volumes:
+      - open-webui-data:/app/backend/data
+      - ./agent:/opt/howto/agent:ro
+      - ./knowledge:/opt/howto/knowledge:ro
+      - ./openwebui:/opt/howto/openwebui:ro
+    environment:
+      WEBUI_SECRET_KEY: "${WEBUI_SECRET_KEY:?Copy .env.example to .env and set WEBUI_SECRET_KEY}"
+      WEBUI_AUTH: "${WEBUI_AUTH:-false}"
+      ENABLE_OPENAI_API: "true"
+      OPENAI_API_BASE_URL: "http://hello-provider:8000/v1"
+      OPENAI_API_KEY: "local-development"
+      DEFAULT_MODELS: "hello-world"
+      ENABLE_OLLAMA_API: "false"
+      ENABLE_PLUGINS: "true"
+      ENABLE_API_KEYS: "true"
+      ENABLE_PIP_INSTALL_FRONTMATTER_REQUIREMENTS: "false"
+      HOWTO_CONTENT_ROOT: "/opt/howto"
+      PYTHONPATH: "/opt/howto/agent/src:/opt/howto"
+      STV_ENABLED: "${STV_ENABLED:-false}"
+      STV_SERVICE_URL: "http://script-to-voice:8000"
+      STV_SERVICE_TOKEN: "${STV_SERVICE_TOKEN:-}"
+    depends_on:
+      hello-provider:
+        condition: service_healthy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+  script-to-voice:
+    build:
+      context: .
+      dockerfile: docker/script-to-voice.Dockerfile
+    profiles: [stv]
+    environment: &stv-environment
+      STV_SERVICE_TOKEN: "${STV_SERVICE_TOKEN:-}"
+      STV_MOCK: "${STV_MOCK:-true}"
+      STV_LIVE_TESTS: "${STV_LIVE_TESTS:-false}"
+      STV_LIVE_ENABLED: "${STV_LIVE_ENABLED:-false}"
+      ELEVENLABS_API_KEY: "${ELEVENLABS_API_KEY:-}"
+      STV_LLM_BASE_URL: "${STV_LLM_BASE_URL:-}"
+      STV_LLM_PROVIDER: "${STV_LLM_PROVIDER:-openai-compatible}"
+      STV_LLM_WORKSPACE_ID: "${STV_LLM_WORKSPACE_ID:-}"
+      STV_LLM_MODEL: "${STV_LLM_MODEL:-}"
+      STV_LLM_API_KEY: "${STV_LLM_API_KEY:-}"
+      STV_LLM_ENABLED: "${STV_LLM_ENABLED:-false}"
+      STV_LLM_TOTAL_BUDGET_USD: "${STV_LLM_TOTAL_BUDGET_USD:-1.00}"
+      STV_LLM_MAX_REQUEST_USD: "${STV_LLM_MAX_REQUEST_USD:-0.05}"
+      STV_LLM_MAX_INPUT_BYTES: "${STV_LLM_MAX_INPUT_BYTES:-16000}"
+      STV_LLM_MAX_OUTPUT_TOKENS: "${STV_LLM_MAX_OUTPUT_TOKENS:-1000}"
+      STV_LLM_PRICING_MODEL: "${STV_LLM_PRICING_MODEL:-}"
+      STV_LLM_INPUT_USD_PER_MILLION: "${STV_LLM_INPUT_USD_PER_MILLION:-}"
+      STV_LLM_OUTPUT_USD_PER_MILLION: "${STV_LLM_OUTPUT_USD_PER_MILLION:-}"
+      STV_MAX_JOB_CHARACTERS: "${STV_MAX_JOB_CHARACTERS:-20000}"
+    volumes:
+      - script-to-voice-data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  script-to-voice-worker:
+    build:
+      context: .
+      dockerfile: docker/script-to-voice.Dockerfile
+    profiles: [stv]
+    environment: *stv-environment
+    volumes:
+      - script-to-voice-data:/data
+    command: [python, -m, script_to_voice.jobs.runner]
+    restart: unless-stopped
+    depends_on:
+      script-to-voice:
+        condition: service_healthy
+
+volumes:
+  script-to-voice-data:
+    name: howto-agent-script-to-voice-data
+  open-webui-data:
+    name: howto-agent-open-webui-data

@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "howto-agent"
+version = "0.1.0"
+description = "Framework-independent domain logic for an experimental Open WebUI how-to agent."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "PyYAML>=6.0,<7",
+]
+
+[project.optional-dependencies]
+stv = [
+    "pydantic==2.12.3",
+    "fastapi==0.120.4",
+    "httpx==0.28.1",
+    "defusedxml==0.7.1",
+    "python-multipart==0.0.20",
+    "uvicorn==0.38.0",
+    "imageio-ffmpeg==0.6.0",
+]
+test = ["pytest==8.4.2"]
+
+[tool.setuptools]
+package-dir = {"" = "agent/src"}
+
+[tool.setuptools.packages.find]
+where = ["agent/src"]

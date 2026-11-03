@@ -1,0 +1,24 @@
+name: Script to Voice mock checks
+on: [push, pull_request]
+jobs:
+  mock-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: draft-owui-instance
+    env:
+      STV_MOCK: 'true'
+      STV_LIVE_ENABLED: 'false'
+      STV_LIVE_TESTS: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: pip install uv==0.9.7
+      - run: uv sync --frozen --extra stv --extra test
+      - run: uv run python -m unittest discover -s tests -t . -q
+      - run: node --test tests/browser/*.test.mjs

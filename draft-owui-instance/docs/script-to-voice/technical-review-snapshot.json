@@ -1,0 +1,1137 @@
+{
+  "created_utc": "2026-11-02T16:27:55.592619+00:00",
+  "repository_root": "C:/Users/Dan/Documents/Codex/OWUI-experiments",
+  "application_root": "C:/Users/Dan/Documents/Codex/OWUI-experiments/draft-owui-instance",
+  "head": "45bce3c1f25fde852713e6ed7fa2a009baaf0a8d",
+  "purpose": "Uncommitted implementation review reference; no credentials or runtime data",
+  "files": [
+    {
+      "path": ".github/workflows/script-to-voice.yml",
+      "sha256": "dcaa0c6b06843fd7f2b390559079093d0b4463c03b7915d0563f8cedde000db6",
+      "bytes": 686,
+      "lines": 24
+    },
+    {
+      "path": "draft-owui-instance/.dockerignore",
+      "sha256": "66f6f92cfdecc20a1e1901ac806227c0b868a96f890cec1451e36ff7428af1c5",
+      "bytes": 66,
+      "lines": 7
+    },
+    {
+      "path": "draft-owui-instance/.env.example",
+      "sha256": "5769b4c7e2ffed2f32fa219397a407d9e59871bcee45f58e0670434d299014d8",
+      "bytes": 1067,
+      "lines": 33
+    },
+    {
+      "path": "draft-owui-instance/.gitignore",
+      "sha256": "2d2129fdc7f7f64fa1414b2838e2f112b9b725016c839b6b847dd16a66506ee7",
+      "bytes": 234,
+      "lines": 22
+    },
+    {
+      "path": "draft-owui-instance/agent/src/howto_agent/__init__.py",
+      "sha256": "267155afc8377708f08a9a1820c8fbe9af634edf357cd7af871c6b3af05cc99a",
+      "bytes": 1221,
+      "lines": 48,
+      "symbols": {}
+    },
+    {
+      "path": "draft-owui-instance/agent/src/howto_agent/agent.py",
+      "sha256": "2660ec1d0141265af381c6ddcfb8364a8d319e346658f38ca2bade67f657bad1",
+      "bytes": 13344,
+      "lines": 346,
+      "symbols": {
+        "ProcessDefinitionError": 22,
+        "AgentConfigurationError": 26,
+        "HowToAgent": 30,
+        "HowToAgent.__init__": 33,
+        "HowToAgent.from_yaml": 92,
+        "HowToAgent.from_content_files": 98,
+        "HowToAgent.get_process_overview": 114,
+        "HowToAgent.get_step": 128,
+        "HowToAgent.get_next_step": 136,
+        "HowToAgent.respond": 144,
+        "HowToAgent._require_text": 194,
+        "HowToAgent._load_process_definition": 201,
+        "HowToAgent._require_guide_content": 213,
+        "HowToAgent._section_reply": 223,
+        "HowToAgent._getting_started_reply": 238,
+        "HowToAgent._chat_choices_reply": 259,
+        "HowToAgent._format_chat_choice": 296,
+        "HowToAgent._highlight_reply": 311,
+        "HowToAgent._unknown_reply": 325,
+        "HowToAgent._first_paragraph": 339,
+        "HowToAgent._escape_markdown": 344
+      }
+    },
+    {
+      "path": "draft-owui-instance/agent/src/howto_agent/context.py",
+      "sha256": "36344b88ef5b7f7aa36d99612b9aba2e521d061669081cfbe885e64a647af7ad",
+      "bytes": 2040,
+      "lines": 53,
+      "symbols": {
+        "ChatChoice": 14,
+        "ChatChoice.__post_init__": 21,
+        "GuideContext": 31,
+        "GuideContext.__post_init__": 38
+      }
+    },
+    {
+      "path": "draft-owui-instance/agent/src/howto_agent/manual.py",
+      "sha256": "c7eb91a029fec11306f54e234a69554f58e81acc90863b019a6aaf90ff084137",
+      "bytes": 6541,
+      "lines": 193,
+      "symbols": {
+        "ManualDefinitionError": 20,
+        "ManualSection": 25,
+        "InstructionManual": 33,
+        "InstructionManual.__init__": 36,
+        "InstructionManual.from_markdown": 53,
+        "InstructionManual.metadata": 79,
+        "InstructionManual.preamble": 83,
+        "InstructionManual.sections": 87,
+        "InstructionManual.ui_references": 91,
+        "InstructionManual.recipe_references": 95,
+        "InstructionManual.get_section": 98,
+        "InstructionManual.validate_references": 103,
+        "InstructionManual._split_frontmatter": 124,
+        "InstructionManual._validate_metadata": 147,
+        "InstructionManual._parse_sections": 156,
+        "InstructionManual._slugify": 190
+      }
+    },
+    {
+      "path": "draft-owui-instance/agent/src/howto_agent/recipes.py",
+      "sha256": "42cdb3f71528ac762a3ff7794aa67f3261a520d3e60575d9bd26ab998cbead80",
+      "bytes": 18726,
+      "lines": 498,
+      "symbols": {
+        "ContentDefinitionError": 39,
+        "UiMap": 43,
+        "UiMap.__init__": 46,
+        "UiMap.from_yaml": 104,
+        "UiMap.target_ids": 109,
+        "UiMap.allowed_origins": 113,
+        "UiMap.get_target": 116,
+        "UiMap.to_dict": 120,
+        "UiMap._require_text": 124,
+        "UiMap._validate_origin": 131,
+        "RecipeStep": 144,
+        "RecipeStep.__post_init__": 152,
+        "RecipeStep.to_dict": 159,
+        "RecipeDefinition": 163,
+        "RecipeDefinition.__init__": 166,
+        "RecipeDefinition.id": 176,
+        "RecipeDefinition.title": 180,
+        "RecipeDefinition.requires_confirmation": 184,
+        "RecipeDefinition.steps": 188,
+        "RecipeDefinition.to_dict": 191,
+        "RecipeRegistry": 195,
+        "RecipeRegistry.__init__": 198,
+        "RecipeRegistry.from_directory": 210,
+        "RecipeRegistry.recipe_ids": 239,
+        "RecipeRegistry.recipes": 243,
+        "RecipeRegistry.get": 246,
+        "RecipeRegistry._validate_recipe": 250,
+        "RecipeRegistry._validate_limits": 405,
+        "RecipeRegistry._validate_preconditions": 424,
+        "RecipeRegistry._validate_target_action": 450,
+        "RecipeRegistry._validate_step_values": 469,
+        "_load_yaml_mapping": 490
+      }
+    },
+    {
+      "path": "draft-owui-instance/agent/src/howto_agent/replies.py",
+      "sha256": "c150ef61f9d5a214003d21b06a465d9467c80a8d669ad6c83192ff8517469207",
+      "bytes": 2710,
+      "lines": 74,
+      "symbols": {
+        "UiDirective": 14,
+        "UiDirective.__post_init__": 22,
+        "AgentReply": 50,
+        "AgentReply.__post_init__": 56,
+        "validate_directive": 62
+      }
+    },
+    {
+      "path": "draft-owui-instance/agent/src/howto_agent/router.py",
+      "sha256": "b322f430debcfc5a18129c91dddc5ff75a96c2f140aa5d3d1f6c57aee3ed969f",
+      "bytes": 4463,
+      "lines": 144,
+      "symbols": {
+        "GuideIntent": 14,
+        "IntentMatch": 28,
+        "route_guide_input": 113
+      }
+    },
+    {
+      "path": "draft-owui-instance/agent/src/howto_agent/triggers.py",
+      "sha256": "516c9dd01d988e772e67bab87acd59c030f008353e52fd7be1db1ea4a8b104b6",
+      "bytes": 3140,
+      "lines": 91,
+      "symbols": {
+        "GuideTriggerError": 23,
+        "GuideTrigger": 28,
+        "GuideTrigger.__post_init__": 36,
+        "normalize_trigger": 50
+      }
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/__init__.py",
+      "sha256": "8e66f53478788dc74b9e48a11416aa8402d7f8ff85b0a560d0b7216dd7f29459",
+      "bytes": 73,
+      "lines": 1,
+      "symbols": {}
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/audio/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "lines": 0,
+      "symbols": {}
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/audio/assembly.py",
+      "sha256": "3f0dd086d2512fe5b81b156aceff684fd99b4897c0b02e0e6143380a854b1976",
+      "bytes": 1860,
+      "lines": 33,
+      "symbols": {
+        "assemble": 9
+      }
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/casting/__init__.py",
+      "sha256": "f1e8f88b90c142d8df48ada293c6e8b86010adf52ac80d792026d641de03275f",
+      "bytes": 36,
+      "lines": 1,
+      "symbols": {}
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/casting/design.py",
+      "sha256": "b9309268ffba140dc1bde8228892deb27d0d16ff9694ebf786269e91a33b50f3",
+      "bytes": 3244,
+      "lines": 50,
+      "symbols": {
+        "DesignService": 8,
+        "DesignService.__init__": 9,
+        "DesignService.previews": 12,
+        "DesignService.save": 34
+      }
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/casting/service.py",
+      "sha256": "1ffeeada1cff9fd17ee26c4e6fb806e7432cba38ba3bf17ec93747b9f9ee2f0d",
+      "bytes": 9658,
+      "lines": 137,
+      "symbols": {
+        "CastingService": 8,
+        "CastingService.__init__": 9,
+        "CastingService.latest": 14,
+        "CastingService.profiles": 20,
+        "CastingService.catalog": 28,
+        "CastingService.assign": 42,
+        "CastingService.reconcile": 58,
+        "CastingService.proposals": 81,
+        "CastingService.audition": 113
+      }
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/contracts/__init__.py",
+      "sha256": "84c159b9388b9c89f0c4c6cfbdee2e438f4121ac0bb306b2a74f1c80eae0f973",
+      "bytes": 22,
+      "lines": 1,
+      "symbols": {}
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/contracts/interfaces.py",
+      "sha256": "ea9373c303e38243392c5db50fd0b1e8a982cd89b55094506bcdf694c6aff095",
+      "bytes": 1197,
+      "lines": 28,
+      "symbols": {
+        "ScriptImporter": 6,
+        "ScriptImporter.parse": 7,
+        "IntentPlanner": 11,
+        "IntentPlanner.interpret": 12,
+        "CastingPlanner": 15,
+        "CastingPlanner.propose": 16,
+        "DirectionPlanner": 19,
+        "DirectionPlanner.annotate": 20,
+        "VoiceProvider": 23,
+        "VoiceProvider.list_voices": 24,
+        "VoiceProvider.get_voice": 25,
+        "VoiceProvider.design_previews": 26,
+        "VoiceProvider.save_preview": 27,
+        "VoiceProvider.render": 28
+      }
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/contracts/models.py",
+      "sha256": "5fde56ceda34c2b4050a1d4aab41c3057bbbc099165c9cb74ae35a41d77a4774",
+      "bytes": 9944,
+      "lines": 329,
+      "symbols": {
+        "Contract": 12,
+        "Contract.semantic_hash": 16,
+        "digest": 20,
+        "Owned": 25,
+        "Project": 31,
+        "TextRun": 35,
+        "SourceSpan": 40,
+        "ScriptElement": 45,
+        "Scene": 59,
+        "Character": 67,
+        "ScriptRevision": 73,
+        "ScriptRevision.references": 87,
+        "Selection": 107,
+        "Selection.validate_source": 115,
+        "require_scope": 126,
+        "CharacterProfile": 131,
+        "CastAssignment": 139,
+        "Cast": 149,
+        "Cast.unique": 156,
+        "Annotation": 165,
+        "Pronunciation": 173,
+        "DirectionPlan": 180,
+        "ProviderCapabilities": 192,
+        "DialogueInput": 205,
+        "DialogueRequest": 210,
+        "DialogueRequest.provider_body": 214,
+        "Fragment": 218,
+        "CompiledChunk": 228,
+        "RenderPlan": 235,
+        "RenderJob": 248,
+        "RenderAttempt": 258,
+        "AudioAsset": 269,
+        "IntentProposal": 281,
+        "CastingProposal": 293,
+        "DirectionProposal": 297,
+        "Voice": 301,
+        "VoicePage": 307,
+        "VoiceDesignRequest": 312,
+        "VoicePreview": 318,
+        "ProviderAudioResult": 324
+      }
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/directing/__init__.py",
+      "sha256": "a01b5ee3686254b9e762d617ac7856e64bf411996aac06b17edb8b40a41ac3a5",
+      "bytes": 38,
+      "lines": 1,
+      "symbols": {}
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/directing/compiler.py",
+      "sha256": "8b09bea4bb6533e1d17ac71d4f3deba9501b3eb6e5db83062aa988f83ff63943",
+      "bytes": 5055,
+      "lines": 82,
+      "symbols": {
+        "compile_plan": 4
+      }
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/directing/direction.py",
+      "sha256": "85e5524b457f53b72d911fef97810c6502f29f62203fa313e7cd58bb46b714ef",
+      "bytes": 2207,
+      "lines": 33,
+      "symbols": {
+        "make_direction": 7
+      }
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/jobs/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "lines": 0,
+      "symbols": {}
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/jobs/runner.py",
+      "sha256": "1f0a00d986cce81da0e726f311263b59858e378539304ec8b6d0522f111d3a43",
+      "bytes": 10066,
+      "lines": 144,
+      "symbols": {
+        "Jobs": 12,
+        "Jobs.__init__": 13,
+        "Jobs.enqueue": 15,
+        "Jobs.status": 32,
+        "Jobs.cancel": 40,
+        "Jobs.retry": 46,
+        "Jobs.tick": 60,
+        "main": 134
+      }
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/parsing/__init__.py",
+      "sha256": "d90dfff4405c4d034eb5ec95b4466357e665bfdc4b74f9047ddbf3d29363e284",
+      "bytes": 27,
+      "lines": 1,
+      "symbols": {}
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/parsing/fdx.py",
+      "sha256": "0f6be19af7679c82be64ad7cd7e9efb2f6b50c6904d7c8795f53ce320540d9b0",
+      "bytes": 4315,
+      "lines": 68,
+      "symbols": {
+        "parse_fdx": 12
+      }
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/providers/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "lines": 0,
+      "symbols": {}
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/providers/anthropic.py",
+      "sha256": "f391b511308d472bf8d40f5513da6b5f690433e8750cf5ae39a509808f2d232f",
+      "bytes": 7152,
+      "lines": 93,
+      "symbols": {
+        "provider_schema": 10,
+        "AnthropicPlanner": 22,
+        "AnthropicPlanner._plan": 23
+      }
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/providers/budget.py",
+      "sha256": "6994cda369a31754df1ed365e3c996b7abbbc190f996979fcef1d5dafdd91160",
+      "bytes": 5134,
+      "lines": 85,
+      "symbols": {
+        "BudgetError": 8,
+        "amount": 12,
+        "PlannerBudget": 21,
+        "PlannerBudget.__init__": 22,
+        "PlannerBudget.from_environment": 36,
+        "PlannerBudget.reserve": 45,
+        "PlannerBudget.status": 64,
+        "PlannerBudget.record": 73
+      }
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/providers/elevenlabs.py",
+      "sha256": "144873a9ce86149598a448223cd7a944ab9fec6c4d66bdf2510c2d184dc3c897",
+      "bytes": 7972,
+      "lines": 122,
+      "symbols": {
+        "ProviderError": 10,
+        "ProviderError.__init__": 11,
+        "ElevenLabs": 17,
+        "ElevenLabs.__init__": 18,
+        "ElevenLabs._request": 23,
+        "ElevenLabs.verify_models": 65,
+        "ElevenLabs._voice": 73,
+        "ElevenLabs.list_voices": 77,
+        "ElevenLabs.get_voice": 84,
+        "ElevenLabs.design_previews": 89,
+        "ElevenLabs.save_preview": 100,
+        "ElevenLabs.render": 105
+      }
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/providers/fakes.py",
+      "sha256": "693fcc192cbe46f1ff072a0857f1e3c52db7a8f5dc129cd24a1640d06b6fda0c",
+      "bytes": 2597,
+      "lines": 68,
+      "symbols": {
+        "tone_wav": 10,
+        "FakePlanners": 21,
+        "FakePlanners.__init__": 22,
+        "FakePlanners.interpret": 25,
+        "FakePlanners.propose": 28,
+        "FakePlanners.annotate": 31,
+        "FakeVoiceProvider": 35,
+        "FakeVoiceProvider.__init__": 36,
+        "FakeVoiceProvider.list_voices": 40,
+        "FakeVoiceProvider.get_voice": 43,
+        "FakeVoiceProvider.design_previews": 50,
+        "FakeVoiceProvider.save_preview": 56,
+        "FakeVoiceProvider.render": 64
+      }
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/providers/planning.py",
+      "sha256": "021bdb52da7096ab7a59eb41e5cca9b69a1b50239b58a5c7bbde4cf72ef82f98",
+      "bytes": 5816,
+      "lines": 92,
+      "symbols": {
+        "PlannerError": 11,
+        "TextPlanner": 15,
+        "TextPlanner.__init__": 16,
+        "TextPlanner._plan": 25,
+        "TextPlanner.interpret": 63,
+        "TextPlanner.propose": 79,
+        "TextPlanner.annotate": 86
+      }
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/selection/__init__.py",
+      "sha256": "f6ad2d3593a8fe89f8fb264dcddb559ace84bdeef4273d46d410acaa5eb13fd0",
+      "bytes": 60,
+      "lines": 1,
+      "symbols": {}
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/selection/resolver.py",
+      "sha256": "787552ab98d33176af15689132f45a5a48ec9c2460b9a6f4902678da30b5fd06",
+      "bytes": 4984,
+      "lines": 83,
+      "symbols": {
+        "Clarification": 5,
+        "parse_command": 9,
+        "resolve": 31
+      }
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/service/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "lines": 0,
+      "symbols": {}
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/service/app.py",
+      "sha256": "d5db3c9d7195392712a9a2aad197de17976e5ac0451e9d988c159656641a9f07",
+      "bytes": 3115,
+      "lines": 75,
+      "symbols": {
+        "CreateProject": 11,
+        "ImportFile": 15,
+        "ChatRequest": 21,
+        "create_app": 27
+      }
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/service/workflow.py",
+      "sha256": "caa7335c1d3264c198419143db7d78e2b3034af9203395b8180c52d7bf43fd21",
+      "bytes": 28826,
+      "lines": 451,
+      "symbols": {
+        "SelectRequest": 13,
+        "CastRequest": 20,
+        "SelectionReference": 27,
+        "AuditionRequest": 31,
+        "DesignRequest": 37,
+        "SaveDesignRequest": 44,
+        "PlanRequest": 51,
+        "ReconcileRequest": 56,
+        "JobRequest": 62,
+        "RetryRequest": 69,
+        "Workflow": 74,
+        "Workflow.__init__": 75,
+        "Workflow.select": 99,
+        "Workflow.revision": 122,
+        "Workflow.plan": 127,
+        "Workflow.enqueue": 187,
+        "Workflow.cast_chat": 193,
+        "Workflow.import_script": 307,
+        "Workflow.chat": 322,
+        "Workflow.register": 384
+      }
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/storage/__init__.py",
+      "sha256": "4324ab25fd8e280e44c29c57970aec4960f9eaa82fbdc74cd4567311d427ae49",
+      "bytes": 55,
+      "lines": 1,
+      "symbols": {}
+    },
+    {
+      "path": "draft-owui-instance/agent/src/script_to_voice/storage/repository.py",
+      "sha256": "86110ba1e933a211436da765a632a53911216b9b4db0b97b8040a5a4da79bffe",
+      "bytes": 8183,
+      "lines": 164,
+      "symbols": {
+        "NotFound": 10,
+        "Conflict": 14,
+        "Repository": 18,
+        "Repository.__init__": 20,
+        "Repository.connect": 69,
+        "Repository.put": 84,
+        "Repository.claim_action": 97,
+        "Repository.complete_action": 107,
+        "Repository.get": 112,
+        "Repository.list": 119,
+        "Repository.typed": 125,
+        "Repository.session": 128,
+        "Repository.save_session": 133,
+        "Repository.store_bytes": 141,
+        "Repository.artifact_path": 156
+      }
+    },
+    {
+      "path": "draft-owui-instance/docker-compose.yml",
+      "sha256": "5506b2ffef3ac822aea60917fcd2e2755ce1656c80293d09ebced49b62682263",
+      "bytes": 3785,
+      "lines": 105
+    },
+    {
+      "path": "draft-owui-instance/docker/script-to-voice.Dockerfile",
+      "sha256": "553e5eab5afeca39da8fe2396d688dd4bbe18e030537bed85c745df3041f1a7a",
+      "bytes": 457,
+      "lines": 9
+    },
+    {
+      "path": "draft-owui-instance/openwebui/functions/__init__.py",
+      "sha256": "76d4c3d56827f9fb86d56e64f3556238930460df18c5ef6a7d75a070c756a04f",
+      "bytes": 67,
+      "lines": 2,
+      "symbols": {}
+    },
+    {
+      "path": "draft-owui-instance/openwebui/functions/catalog.py",
+      "sha256": "50aafb66df1cc0bc425eede7fbc872c32185efc8fbdeffa2281ea22910171678",
+      "bytes": 4540,
+      "lines": 143,
+      "symbols": {
+        "CatalogUnavailable": 16,
+        "CatalogBindings": 21,
+        "load_openwebui_bindings": 29,
+        "visible_chat_choices": 47,
+        "_effective_models": 91,
+        "_to_chat_choice": 114,
+        "_classify_chat_choice": 131
+      }
+    },
+    {
+      "path": "draft-owui-instance/openwebui/functions/howto_pipe.py",
+      "sha256": "a46bba5c7bf87e7c473003720cc9cd8ca8ea522c1cadbc0776138cea1d58bbb6",
+      "bytes": 6321,
+      "lines": 199,
+      "symbols": {
+        "Pipe": 44,
+        "Pipe.__init__": 47,
+        "Pipe.pipe": 63,
+        "Pipe._load_catalog_context": 88,
+        "Pipe._build_agent": 108,
+        "extract_user_prompt": 121,
+        "render_reply_with_directives": 148,
+        "_directive_payload": 164,
+        "_require_transport_id": 179,
+        "_extract_text_content": 184
+      }
+    },
+    {
+      "path": "draft-owui-instance/openwebui/functions/script_to_voice_files.py",
+      "sha256": "dfe239f45feea2112c50bfc8dc0cad7eb0b9e0aa9d303845c539ecea8ef993af",
+      "bytes": 1946,
+      "lines": 44,
+      "symbols": {
+        "original_file": 9,
+        "register_output": 27
+      }
+    },
+    {
+      "path": "draft-owui-instance/openwebui/functions/script_to_voice_pipe.py",
+      "sha256": "727e5bb3c08dbae8d8cfe4d05bade3e97c9aeb8d4ada2e0b162205a38874359c",
+      "bytes": 3998,
+      "lines": 72,
+      "symbols": {
+        "Pipe": 13,
+        "Pipe.__init__": 14,
+        "Pipe.pipe": 18
+      }
+    },
+    {
+      "path": "draft-owui-instance/pyproject.toml",
+      "sha256": "8e850b2d90856e2b74c7bdf967a8c4b9c931ce9ec0121afde94e92d08be33b18",
+      "bytes": 673,
+      "lines": 31
+    },
+    {
+      "path": "draft-owui-instance/scripts/build-guide-assets.py",
+      "sha256": "162c1b240ff76190b37c246a4326888ca84a20d159de144e4c2fba5e25409ebf",
+      "bytes": 3511,
+      "lines": 106,
+      "symbols": {
+        "build_asset": 25,
+        "build_recipe_asset": 43,
+        "main": 73
+      }
+    },
+    {
+      "path": "draft-owui-instance/scripts/check-anthropic-models.py",
+      "sha256": "50805fa277eb876521ad661fcf6b1d76a1fa1a07697a0252a9031107ed47d720",
+      "bytes": 1112,
+      "lines": 19,
+      "symbols": {}
+    },
+    {
+      "path": "draft-owui-instance/scripts/check-elevenlabs-account.py",
+      "sha256": "ea85572d842e99b7f356f8aa1ad7b7620d5cc175a813adb4373b5e775d38744e",
+      "bytes": 3260,
+      "lines": 56,
+      "symbols": {
+        "main": 11
+      }
+    },
+    {
+      "path": "draft-owui-instance/scripts/check-stv-installation.py",
+      "sha256": "d7027786e242238d1051f5e0018c3da9427d2ca47ebfdd82f67368b415a56e8f",
+      "bytes": 1445,
+      "lines": 27,
+      "symbols": {}
+    },
+    {
+      "path": "draft-owui-instance/scripts/check-stv-text-planning.py",
+      "sha256": "11dbac7a1b39c3254a32ce949fd798e35038a26df6c4ba163cb1c902d5890edb",
+      "bytes": 2661,
+      "lines": 42,
+      "symbols": {}
+    },
+    {
+      "path": "draft-owui-instance/scripts/check-stv-workflow.py",
+      "sha256": "e4c627f8ff7854028e8fa78607eaa4c466d616c63234ee5c9485cbe9d4a08766",
+      "bytes": 2501,
+      "lines": 47,
+      "symbols": {}
+    },
+    {
+      "path": "draft-owui-instance/scripts/install-howto-function.ps1",
+      "sha256": "72ae0098a6e208f6d5f3f17c85d9ea87188943a22b1fe4478aca1e11ff7fbe23",
+      "bytes": 6234,
+      "lines": 200
+    },
+    {
+      "path": "draft-owui-instance/scripts/install-script-to-voice-function.ps1",
+      "sha256": "7d73a247f46eda6ab2edc01542d5fdcc107adbb2ebc8878d20978bf1e66aa856",
+      "bytes": 628,
+      "lines": 20
+    },
+    {
+      "path": "draft-owui-instance/tests/__init__.py",
+      "sha256": "943503e0f67f4ef78f2f0bde837ca427221e3156b7f5d356ff13994f491c4953",
+      "bytes": 42,
+      "lines": 1,
+      "symbols": {}
+    },
+    {
+      "path": "draft-owui-instance/tests/browser/directive-renderer.test.mjs",
+      "sha256": "793155b9d1cf68e5da518e31fe0ed581439f5b168ce944d95f36965a0f07a18c",
+      "bytes": 16126,
+      "lines": 530
+    },
+    {
+      "path": "draft-owui-instance/tests/browser/fixtures/guide-extension-visual.html",
+      "sha256": "b8854b33d8556369e1146b8a6aee351d0fa667da8e4468ec40f7c760cd437449",
+      "bytes": 3255,
+      "lines": 62
+    },
+    {
+      "path": "draft-owui-instance/tests/browser/fixtures/guide-extension-visual.js",
+      "sha256": "8828f59afea9ddd87070c8a37df102916e42d1fa584d1f042e732923bf5347eb",
+      "bytes": 1953,
+      "lines": 62
+    },
+    {
+      "path": "draft-owui-instance/tests/browser/guide-bridge.test.mjs",
+      "sha256": "bef8a1394150d15e877392416a9f968442e1dab8e3b509588c83bc7e3379c7fe",
+      "bytes": 12662,
+      "lines": 461
+    },
+    {
+      "path": "draft-owui-instance/tests/browser/recipe-runner.test.mjs",
+      "sha256": "da0d3e4e464c8e349474fd958d8ef6c10359dc45ed52a08ca4c702d488335553",
+      "bytes": 13596,
+      "lines": 479
+    },
+    {
+      "path": "draft-owui-instance/tests/browser/telemetry.test.mjs",
+      "sha256": "db69c7a03ea5017960d4c097e03b36718596b2769b7c123484badecc5a050a9f",
+      "bytes": 2112,
+      "lines": 86
+    },
+    {
+      "path": "draft-owui-instance/tests/script_to_voice/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "lines": 0,
+      "symbols": {}
+    },
+    {
+      "path": "draft-owui-instance/tests/script_to_voice/fixtures/two_speakers.fdx",
+      "sha256": "22b366ebb567ba66ab492213c4312b6e23a17de0505f5a51116f1ce446437103",
+      "bytes": 1142,
+      "lines": 17
+    },
+    {
+      "path": "draft-owui-instance/tests/script_to_voice/test_anthropic.py",
+      "sha256": "605b6c1825d37e00004f3c52998de2ab55fc93f5c4fc5d8de052defa0a82becf",
+      "bytes": 5903,
+      "lines": 96,
+      "symbols": {
+        "response": 13,
+        "AnthropicTests": 18,
+        "AnthropicTests.test_followup_scene_filter_normalizes_without_expanding_selection": 19,
+        "AnthropicTests.test_returned_character_id_is_exactly_resolved": 34,
+        "AnthropicTests.test_native_payload_usage_and_source_validation": 43,
+        "AnthropicTests.test_refusal_truncation_model_mismatch_and_http_do_not_retry": 62,
+        "AnthropicTests.test_malformed_repair_and_unknown_ids": 74,
+        "AnthropicTests.test_timeout_keeps_reservation_and_stops": 82,
+        "AnthropicTests.test_schema_bounds_remain_local": 91
+      }
+    },
+    {
+      "path": "draft-owui-instance/tests/script_to_voice/test_casting.py",
+      "sha256": "670d61be326f5cd6ef455fa366abace609b5aed53d8ca226af36fa5b122377c2",
+      "bytes": 3107,
+      "lines": 49,
+      "symbols": {
+        "CastingTests": 10,
+        "CastingTests.test_explicit_revision_reconciliation_preserves_target_and_rejects_foreign": 11,
+        "CastingTests.test_persistent_manual_cast_all_roles_and_audition": 31
+      }
+    },
+    {
+      "path": "draft-owui-instance/tests/script_to_voice/test_compiler.py",
+      "sha256": "ed877841a78ee05bb39fd55273ecfef81d8b9e11a8a8991c2ae9902b033c77b3",
+      "bytes": 4474,
+      "lines": 72,
+      "symbols": {
+        "CompilerTests": 9,
+        "CompilerTests.test_full_script_fixture_complete_ordered_coverage": 10,
+        "CompilerTests.build": 29,
+        "CompilerTests.test_boundaries_unicode_huge_and_coverage": 39,
+        "CompilerTests.test_stale_missing_empty_and_scene_boundaries": 49,
+        "CompilerTests.test_eleven_voices_and_discontiguous_selection": 58
+      }
+    },
+    {
+      "path": "draft-owui-instance/tests/script_to_voice/test_contracts.py",
+      "sha256": "7844f1d2d7bfffdddd0e04da873563ea55e91007f48dc782654e98d9b1f946e4",
+      "bytes": 2266,
+      "lines": 43,
+      "symbols": {
+        "revision": 6,
+        "ContractsTests": 17,
+        "ContractsTests.test_roundtrip_and_hash": 18,
+        "ContractsTests.test_strict_and_foreign_ids": 25,
+        "ContractsTests.test_provider_body_excludes_internal_metadata": 41
+      }
+    },
+    {
+      "path": "draft-owui-instance/tests/script_to_voice/test_design.py",
+      "sha256": "1f396f73a5468358de408b9fa3ce68f345415b314a4d4ffe71a0a7b22a1cf088",
+      "bytes": 2306,
+      "lines": 33,
+      "symbols": {
+        "DesignTests": 11,
+        "DesignTests.test_chosen_candidate_restart_dedup_and_preview_rejection": 12,
+        "DesignTests.test_uncertain_save_never_repeated": 26
+      }
+    },
+    {
+      "path": "draft-owui-instance/tests/script_to_voice/test_direction.py",
+      "sha256": "a562c9c05d3d4e9e55adef4c22ea6787ea89ca48e3017bc1aa555df6f35d2479",
+      "bytes": 1293,
+      "lines": 20,
+      "symbols": {
+        "DirectionTests": 8,
+        "DirectionTests.test_source_evidence_sparse_override_and_unicode": 9
+      }
+    },
+    {
+      "path": "draft-owui-instance/tests/script_to_voice/test_jobs.py",
+      "sha256": "b6dad67d9876f457783108694574648d4b952ae6e850b8526c719d9b4b1edf43",
+      "bytes": 6506,
+      "lines": 108,
+      "symbols": {
+        "JobTests": 12,
+        "JobTests.test_transient_retry_cannot_expand_authorized_budget": 13,
+        "JobTests.setup_workflow": 26,
+        "JobTests.test_complete_workflow_duplicate_restart_download_and_timing": 35,
+        "JobTests.test_rate_limit_backoff_retains_attempt_history": 71,
+        "JobTests.test_auth_stops_cancel_retry_and_uncertain_restart": 88
+      }
+    },
+    {
+      "path": "draft-owui-instance/tests/script_to_voice/test_parsing.py",
+      "sha256": "f049d9a0000e3fd5c9566b165f5c89cbc45a1e69f93714f71e5cc006a197eee2",
+      "bytes": 2485,
+      "lines": 47,
+      "symbols": {
+        "parsed": 8,
+        "ParserTests": 12,
+        "ParserTests.test_import_duplicate_and_second_script": 13,
+        "ParserTests.test_provenance_runs_aliases_parentheticals": 30,
+        "ParserTests.test_reject_bad_empty_entities": 43
+      }
+    },
+    {
+      "path": "draft-owui-instance/tests/script_to_voice/test_pipe.py",
+      "sha256": "90b4546888fa7c33d61fdd7f5f6a2c8105546dff7b9ea0bb6b96f277de03bfa1",
+      "bytes": 1332,
+      "lines": 27,
+      "symbols": {
+        "PipeTests": 8,
+        "PipeTests.test_optional_emitter_identity_background_and_payload": 9,
+        "PipeTests.test_missing_configuration": 25
+      }
+    },
+    {
+      "path": "draft-owui-instance/tests/script_to_voice/test_planner_budget.py",
+      "sha256": "341cd2553ae2a3afd8cba21b9da7cec1e5db69f8c3d20e6709575b527e7b1ebb",
+      "bytes": 3853,
+      "lines": 72,
+      "symbols": {
+        "ledger": 13,
+        "BudgetTests": 17,
+        "BudgetTests.test_restart_and_atomic_shared_cap": 18,
+        "BudgetTests.test_rates_model_size_and_cost_fail_closed": 30,
+        "BudgetTests.test_migration_preserves_existing_objects": 39,
+        "PlannerBudgetTests": 48,
+        "PlannerBudgetTests.test_repair_is_a_second_reservation_and_is_blocked_before_send": 49,
+        "PlannerBudgetTests.test_timeout_reservation_is_retained_and_live_default_is_disabled": 62
+      }
+    },
+    {
+      "path": "draft-owui-instance/tests/script_to_voice/test_planner_workflow.py",
+      "sha256": "bd6af62a4ed524d44979d47674c2febeb0cb2d332d87973befa3bb43c11c9fc6",
+      "bytes": 2347,
+      "lines": 41,
+      "symbols": {
+        "CountingPlanner": 10,
+        "CountingPlanner.__init__": 12,
+        "CountingPlanner.interpret": 13,
+        "CountingPlanner.propose": 15,
+        "CountingPlanner.annotate": 18,
+        "PlannerWorkflowTests": 22,
+        "PlannerWorkflowTests.test_paid_work_is_cached_inspection_is_free_and_missing_cast_blocks_first": 23
+      }
+    },
+    {
+      "path": "draft-owui-instance/tests/script_to_voice/test_planning.py",
+      "sha256": "8767c7085f8a37160b8a48b61c150657a6b6a903c06fe883f310e37ced3cde83",
+      "bytes": 1885,
+      "lines": 33,
+      "symbols": {
+        "PlanningTests": 8,
+        "PlanningTests.test_success_untrusted_script_and_bounded_repair": 9,
+        "PlanningTests.test_timeout_invalid_ids_malformed_and_recursion": 21
+      }
+    },
+    {
+      "path": "draft-owui-instance/tests/script_to_voice/test_provider.py",
+      "sha256": "4ac10f181bddf206a286b63951bd5b59e0adb021903f0b3e131c564287ea3072",
+      "bytes": 3515,
+      "lines": 51,
+      "symbols": {
+        "chunk": 9,
+        "ProviderTests": 13,
+        "ProviderTests.test_payload_models_pagination_design_and_save": 14,
+        "ProviderTests.test_errors_no_retries_and_live_gate": 34,
+        "ProviderTests.test_ambiguous_timeout": 47
+      }
+    },
+    {
+      "path": "draft-owui-instance/tests/script_to_voice/test_selection.py",
+      "sha256": "dc59964db48c2fecb7c6dc8df4a767acebea0cc5ba670b0c40676a8205856210",
+      "bytes": 3008,
+      "lines": 49,
+      "symbols": {
+        "SelectionTests": 7,
+        "SelectionTests.test_complete_exact_and_empty": 8,
+        "SelectionTests.test_scene_refine_ambiguity_and_context": 19,
+        "SelectionTests.test_reload_two_users_two_scripts": 29
+      }
+    },
+    {
+      "path": "draft-owui-instance/tests/script_to_voice/test_storage.py",
+      "sha256": "3a25f92b4795d28469ebafca26ab32510d6cd9b82d3f18128fe49e7cc59febc9",
+      "bytes": 1964,
+      "lines": 35,
+      "symbols": {
+        "StorageTests": 8,
+        "StorageTests.test_restart_ownership_and_paths": 9,
+        "StorageTests.test_private_api_auth_and_restart": 25
+      }
+    },
+    {
+      "path": "draft-owui-instance/tests/test_agent.py",
+      "sha256": "bab2d0e9a6dbee553d9df2223e05b9648156c77e4e589d267409b339a2ce7a6b",
+      "bytes": 2431,
+      "lines": 74,
+      "symbols": {
+        "HowToAgentTests": 16,
+        "HowToAgentTests.setUpClass": 18,
+        "HowToAgentTests.test_loads_process_and_returns_overview": 21,
+        "HowToAgentTests.test_gets_known_step": 28,
+        "HowToAgentTests.test_gets_next_step": 34,
+        "HowToAgentTests.test_unknown_step_returns_none": 40,
+        "HowToAgentTests.test_final_step_has_no_next_step": 44,
+        "HowToAgentTests.test_returned_steps_do_not_mutate_the_process": 47,
+        "HowToAgentTests.test_duplicate_step_ids_are_rejected": 58
+      }
+    },
+    {
+      "path": "draft-owui-instance/tests/test_guide_extension.py",
+      "sha256": "9584ed1fca501678cd0e506dafd78d834ea928ced8858f485012edbd44d6dabf",
+      "bytes": 2496,
+      "lines": 77,
+      "symbols": {
+        "GuideExtensionManifestTests": 14,
+        "GuideExtensionManifestTests.test_manifest_is_local_origin_only_and_has_no_permissions": 15,
+        "GuideExtensionManifestTests.test_every_declared_extension_asset_exists": 40,
+        "GuideExtensionDomTests": 55,
+        "GuideExtensionDomTests.test_dom_contract": 56
+      }
+    },
+    {
+      "path": "draft-owui-instance/tests/test_guide_responses.py",
+      "sha256": "4704b675e7af1c32c18b7e094edcbfd0e71783c4aa8507134b051b141051f141",
+      "bytes": 6991,
+      "lines": 189,
+      "symbols": {
+        "GuideRouterTests": 24,
+        "GuideRouterTests.test_routes_minimum_supported_questions": 25,
+        "GuideRouterTests.test_routes_structured_getting_started_trigger": 38,
+        "GuideRouterTests.test_routes_documented_highlight_phrases": 50,
+        "GroundedGuideResponseTests": 67,
+        "GroundedGuideResponseTests.setUpClass": 69,
+        "GroundedGuideResponseTests.test_answers_what_open_webui_is_from_the_manual": 77,
+        "GroundedGuideResponseTests.test_answers_how_to_use_it_and_offers_the_model_picker": 84,
+        "GroundedGuideResponseTests.test_explains_models_and_agents": 91,
+        "GroundedGuideResponseTests.test_lists_only_runtime_chat_choices": 97,
+        "GroundedGuideResponseTests.test_does_not_expose_catalog_error_details": 119,
+        "GroundedGuideResponseTests.test_escapes_runtime_choice_metadata_in_markdown": 131,
+        "GroundedGuideResponseTests.test_offers_the_registered_workable_example": 148,
+        "GroundedGuideResponseTests.test_starts_the_tour_at_the_first_grounded_step": 156,
+        "GroundedGuideResponseTests.test_highlight_response_uses_ui_map_description": 164,
+        "GroundedGuideResponseTests.test_unknown_question_fails_groundedly": 172,
+        "GroundedGuideResponseTests.test_process_only_agent_rejects_guide_responses": 178
+      }
+    },
+    {
+      "path": "draft-owui-instance/tests/test_howto_pipe.py",
+      "sha256": "070c0da45dd4759e72940c3f3a30ec56a196f36577ffcd2f780f12b15e364ad8",
+      "bytes": 7875,
+      "lines": 231,
+      "symbols": {
+        "build_agent": 19,
+        "HowToPipeTests": 28,
+        "HowToPipeTests.setUpClass": 30,
+        "HowToPipeTests.test_pipe_is_selectable_by_name_and_answers_without_an_llm": 33,
+        "HowToPipeTests.test_prefers_unwrapped_metadata_prompt": 57,
+        "HowToPipeTests.test_loads_runtime_catalog_only_for_availability_question": 74,
+        "HowToPipeTests.test_catalog_failure_returns_grounded_runtime_fallback": 105,
+        "HowToPipeTests.test_invalid_catalog_values_fail_closed": 123,
+        "HowToPipeTests.test_missing_content_keeps_function_loadable": 140,
+        "HowToPipeTests.test_missing_user_message_returns_supported_topics": 149,
+        "HowToPipeTests.test_unsafe_transport_identifier_fails_closed": 155,
+        "HowToPipeTests.test_extracts_last_user_text_from_multimodal_content": 172,
+        "HowToPipeTests.test_serializes_highlight_directive_deterministically": 191,
+        "HowToPipeTests.test_serializes_confirmation_gated_recipe": 212
+      }
+    },
+    {
+      "path": "draft-owui-instance/tests/test_installation.py",
+      "sha256": "8dcb97a6f1068be85a6eba04226b4238ae089f9eecb6d70194e27b0699e23067",
+      "bytes": 9550,
+      "lines": 259,
+      "symbols": {
+        "FunctionApiState": 22,
+        "FunctionApiState.__init__": 23,
+        "FunctionApiState.response": 30,
+        "make_handler": 43,
+        "MockFunctionApi": 102,
+        "MockFunctionApi.__init__": 103,
+        "MockFunctionApi.base_url": 112,
+        "MockFunctionApi.__enter__": 116,
+        "MockFunctionApi.__exit__": 120,
+        "ComposeInstallationTests": 126,
+        "ComposeInstallationTests.test_open_webui_mounts_guide_sources_read_only": 127,
+        "ComposeInstallationTests.test_open_webui_configures_the_guide_import_boundary": 135,
+        "FunctionInstallerTests": 153,
+        "FunctionInstallerTests.setUpClass": 155,
+        "FunctionInstallerTests.test_creates_enables_and_then_makes_no_changes": 159,
+        "FunctionInstallerTests.test_requires_an_administrator_api_key": 180,
+        "FunctionInstallerTests.test_refuses_source_replacement_without_explicit_update": 203,
+        "FunctionInstallerTests.test_can_create_without_enabling": 221,
+        "FunctionInstallerTests._run": 234
+      }
+    },
+    {
+      "path": "draft-owui-instance/tests/test_manual.py",
+      "sha256": "4fb2f6c957897519247475dff07e400485f25ac413fd9797a91232a5cc5e379f",
+      "bytes": 3118,
+      "lines": 114,
+      "symbols": {
+        "InstructionManualTests": 16,
+        "InstructionManualTests.setUpClass": 18,
+        "InstructionManualTests.test_loads_metadata_and_addressable_sections": 26,
+        "InstructionManualTests.test_extracts_semantic_references": 34,
+        "InstructionManualTests.test_all_manual_references_resolve": 38,
+        "InstructionManualTests.test_metadata_is_a_defensive_copy": 44,
+        "InstructionManualTests.test_rejects_unknown_manual_references": 53,
+        "InstructionManualTests.test_rejects_duplicate_section_slugs": 79,
+        "InstructionManualTests._load_temporary_manual": 105
+      }
+    },
+    {
+      "path": "draft-owui-instance/tests/test_openwebui_catalog.py",
+      "sha256": "61bd3bb6ecec3876b06a4e147d5691be705652f090dbad91596e98d578f7cb49",
+      "bytes": 5254,
+      "lines": 156,
+      "symbols": {
+        "FakeUsers": 13,
+        "FakeUsers.__init__": 14,
+        "FakeUsers.get_user_by_id": 18,
+        "OpenWebUICatalogTests": 23,
+        "OpenWebUICatalogTests.test_returns_effective_user_filtered_chat_choices": 24,
+        "OpenWebUICatalogTests.test_returns_only_models_retained_by_access_filter": 96,
+        "OpenWebUICatalogTests.test_rejects_missing_user_context": 120,
+        "OpenWebUICatalogTests.test_wraps_internal_catalog_errors_without_leaking_details": 132,
+        "OpenWebUICatalogTests._unused": 150
+      }
+    },
+    {
+      "path": "draft-owui-instance/tests/test_recipes.py",
+      "sha256": "1ef4f9d254652a4526866a302ed4c8cf63e5f6fee25c13efb0a2c84f14ee1bb3",
+      "bytes": 5748,
+      "lines": 152,
+      "symbols": {
+        "UiMapAndRecipeTests": 21,
+        "UiMapAndRecipeTests.setUpClass": 23,
+        "UiMapAndRecipeTests.test_loads_semantic_ui_targets": 30,
+        "UiMapAndRecipeTests.test_loads_allow_listed_recipes": 38,
+        "UiMapAndRecipeTests.test_recipe_definitions_are_defensive_copies": 51,
+        "UiMapAndRecipeTests.test_rejects_unknown_recipe_actions": 60,
+        "UiMapAndRecipeTests.test_rejects_unknown_recipe_targets": 67,
+        "UiMapAndRecipeTests.test_mutating_recipe_requires_confirmation": 74,
+        "UiMapAndRecipeTests.test_build_script_generates_current_json_asset": 81,
+        "UiMapAndRecipeTests.test_build_script_generates_current_recipe_asset": 99,
+        "UiMapAndRecipeTests._recipe_definition": 139,
+        "UiMapAndRecipeTests._load_only_recipe": 144
+      }
+    },
+    {
+      "path": "draft-owui-instance/tests/test_triggers.py",
+      "sha256": "9ec8ff02ce96042bd02ce4e3ae1966e0241948440e80d1a3f7492943fc109598",
+      "bytes": 3869,
+      "lines": 116,
+      "symbols": {
+        "GuideTriggerTests": 17,
+        "GuideTriggerTests.test_normalizes_visible_starter_message": 18,
+        "GuideTriggerTests.test_normalizes_structured_cta_trigger": 26,
+        "GuideTriggerTests.test_unrelated_text_is_not_a_trigger": 41,
+        "GuideTriggerTests.test_trigger_parameters_are_copied_and_read_only": 44,
+        "GuideTriggerTests.test_rejects_unsupported_trigger_fields": 57,
+        "GuideContractTests": 70,
+        "GuideContractTests.test_context_accepts_user_visible_choices": 71,
+        "GuideContractTests.test_unavailable_catalog_may_include_an_error": 85,
+        "GuideContractTests.test_run_recipe_directive_requires_confirmation": 93,
+        "GuideContractTests.test_reply_normalizes_directives_to_a_tuple": 97,
+        "GuideContractTests.test_registry_validation_rejects_unknown_references": 103
+      }
+    },
+    {
+      "path": "draft-owui-instance/uv.lock",
+      "sha256": "9c0786a10f760bed56dadb40bd932526666833bd076941ecddcf3686d0c01c05",
+      "bytes": 63820,
+      "lines": 452
+    }
+  ]
+}
